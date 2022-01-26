@@ -2,8 +2,8 @@
   "name": "backend-capstone",
   "version": "1.0.0",
   "main": "src/app.js",
-  "repository": "git@github.com:ReCoded-Org/backend-capstone-template.git",
-  "author": "Ammar-64",
+  "repository": "git@github.com:RCDD-202110-TUR-BEW/backend-capstone-turkey-voluntera.git",
+  "author": "Voluntera team",
   "license": "MIT",
   "scripts": {
     "start": "nodemon src/app.js",
@@ -15,8 +15,11 @@
     "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^14.2.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.2",
+    "mongoose": "^6.1.8",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
