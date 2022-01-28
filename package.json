@@ -20,10 +20,11 @@
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "mongoose": "^6.1.8",
+    "react": "^17.0.2",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
-    "eslint": "^8.7.0",
+    "eslint": "8.5.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.3.0",
