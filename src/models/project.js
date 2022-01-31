@@ -6,13 +6,11 @@ const application = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
-    date: {
-      type: Date,
-      required: true,
-    },
     status: {
       type: String,
+      enum: ['pending', 'accepted', 'declined'],
       required: true,
+      default: 'pending',
     },
   },
   { timestamps: true }
@@ -20,10 +18,6 @@ const application = new mongoose.Schema(
 
 const project = new mongoose.Schema(
   {
-    ProjectID: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
     Creator: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -34,7 +28,6 @@ const project = new mongoose.Schema(
     },
     type: {
       type: String,
-      required: true,
     },
     content: {
       type: String,
@@ -47,14 +40,11 @@ const project = new mongoose.Schema(
     isOpen: {
       type: String,
       required: true,
+      enum: ['open', 'closed'],
+      default: 'open',
     },
     necessarySkills: {
       type: [String],
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
     },
     applications: [application],
   },

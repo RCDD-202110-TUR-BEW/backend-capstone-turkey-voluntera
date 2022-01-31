@@ -6,13 +6,8 @@ const thread = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
-
     content: {
       type: String,
-      required: true,
-    },
-    date: {
-      type: Date,
       required: true,
     },
   },
@@ -29,21 +24,15 @@ const comment = new mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
-      type: Date,
-      required: true,
-    },
+
     threads: [thread],
   },
+
   { timestamps: true }
 );
 
 const post = new mongoose.Schema(
   {
-    PostID: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -54,14 +43,9 @@ const post = new mongoose.Schema(
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
-      required: true,
     },
     content: {
       type: String,
-      required: true,
-    },
-    date: {
-      type: Date,
       required: true,
     },
     comments: [comment],

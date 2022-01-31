@@ -1,17 +1,17 @@
 const { MongoClient } = require('mongodb');
 
 const connectMongo = async () => {
-  const mri =
+  const uri =
     'mongodb+srv://volunterarecoded:12345voluntera@cluster0.diiga.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-  const client = new MongoClient(mri);
+  const client = new MongoClient(uri);
   try {
     await client.connect();
-    console.log('database connected successfully');
-    // await  listDatabases(client);
+    console.log('Atlas database connected successfully');
   } catch (err) {
     console.log(err);
   } finally {
     await client.close();
   }
 };
-// connectMongo().catch(console.error);
+
+module.exports = connectMongo;
