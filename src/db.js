@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
-class DbConnection {
+class Database {
+  #connection = null;
+
   constructor(url) {
     this.url = url;
-    this.connection = null;
   }
 
-  async connect() {
+  async #connect() {
     try {
       await mongoose.connect(this.url);
       console.log(`Successfuly connected to ${this.url}`);
@@ -18,12 +19,24 @@ class DbConnection {
   }
 
   getConnection() {
-    if (this.connection == null) {
-      this.connect();
-      this.connection = mongoose.connection;
+    if (this.#connection == null) {
+      this.#connect();
+      this.#connection = mongoose.connection;
     }
-    return this.connection;
+    return this.#connection;
+  }
+
+  closeConnection() {
+    this.#connection.close().then(() => {
+      this.#connection = null;
+    });
+  }
+
+  dropDatabase() {
+    if (this.#connection !== null) {
+      this.#connection.dropDatabase();
+    }
   }
 }
 
-module.exports = DbConnection;
+module.exports = Database;
