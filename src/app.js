@@ -1,26 +1,26 @@
 const express = require('express');
+require('dotenv').config();
 const Database = require('./db');
 
 const app = express();
-const devPort = process.env.PORT;
-const prodPort = process.env.PRODUCTION_PORT;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-if (process.env.NODE_ENV === 'development') {
-  const db = new Database(process.env.DB_DEV_URL);
-  db.connect();
+const port =
+  process.env.NODE_ENV === 'development'
+    ? process.env.DEVELOPMENT_PORT
+    : process.env.PRODUCTION_PORT;
+const dbUrl =
+  process.env.NODE_ENV === 'development'
+    ? process.env.DB_DEV_URL
+    : process.env.DB_PRODUCTION_URL;
 
-  app.listen(devPort, () => {
-    console.log(`Server is listening on port: ${devPort}`);
-  });
-}
+if (process.env.NODE_ENV !== 'test') {
+  const db = new Database(dbUrl);
+  db.getConnection();
 
-if (process.env.NODE_ENV === 'production') {
-  const db = new Database(process.env.DB_PRODUCTION_URL);
-  db.connect();
-
-  app.listen(prodPort, () => {
-    console.log(`Server is listening on port: ${prodPort}`);
+  app.listen(port, () => {
+    console.log(`Server is listening on port: ${port}`);
   });
 }
