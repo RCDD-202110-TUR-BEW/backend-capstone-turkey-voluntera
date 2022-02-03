@@ -10,7 +10,7 @@ class Database {
   async #connect() {
     try {
       await mongoose.connect(this.url);
-      console.log(`Successfuly connected to ${this.url}`);
+      console.log(`Successfully connected to ${this.url}`);
     } catch (err) {
       console.log(
         `Connection to ${this.url} has failed. With error code: \n${err}`
