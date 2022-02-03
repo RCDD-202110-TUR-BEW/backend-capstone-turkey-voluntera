@@ -28,13 +28,12 @@ const volunteerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    age: {
-      type: Number,
+    birthDate: {
+      type: Date,
       required: true,
     },
     skills: {
       type: [String],
-      required: true,
     },
   },
   { timestamps: true }
