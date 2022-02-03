@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const thread = new mongoose.Schema(
+const threadSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
@@ -19,14 +19,14 @@ const thread = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const comment = new mongoose.Schema(
+
+const commentSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-
     content: {
       type: String,
       required: true,
@@ -35,12 +35,12 @@ const comment = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    threads: [thread],
+    threads: [threadSchema],
   },
   { timestamps: true }
 );
 
-const post = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
@@ -62,9 +62,9 @@ const post = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    comments: [comment],
+    comments: [commentSchema],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Post', post);
+module.exports = mongoose.model('Post', postSchema);
