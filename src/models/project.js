@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const application = new mongoose.Schema(
+const applicationSchema = new mongoose.Schema(
   {
     applicant: {
       type: mongoose.Schema.Types.ObjectId,
@@ -20,7 +20,7 @@ const application = new mongoose.Schema(
   { timestamps: true }
 );
 
-const project = new mongoose.Schema(
+const projectSchema = new mongoose.Schema(
   {
     creator: {
       type: mongoose.Schema.Types.ObjectId,
@@ -50,9 +50,9 @@ const project = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    applications: [application],
+    applications: [applicationSchema],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Project', project);
+module.exports = mongoose.model('Project', projectSchema);
