@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+const { models } = require('../constants.json');
 
 const applicationSchema = new mongoose.Schema(
   {
     applicant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: models.user,
       required: true,
     },
     date: {
@@ -24,18 +25,20 @@ const projectSchema = new mongoose.Schema(
   {
     creator: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: models.user,
       required: true,
     },
     title: {
       type: String,
+      maxlength: 100,
       required: true,
     },
     type: {
       type: String,
+      enum: ['Event', 'Part-time', 'Full-time'],
       required: true,
     },
-    location: {
+    address: {
       type: String,
       required: true,
     },
@@ -45,14 +48,22 @@ const projectSchema = new mongoose.Schema(
     },
     necessarySkills: {
       type: [String],
+      default: [],
     },
     date: {
       type: Date,
       required: true,
     },
-    applications: [applicationSchema],
+    applications: {
+      type: [applicationSchema],
+      default: [],
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Project', projectSchema);
+projectSchema.virtual('numberOfApplications').get(function () {
+  return this.applications.length;
+});
+
+module.exports = mongoose.model(models.project, projectSchema);

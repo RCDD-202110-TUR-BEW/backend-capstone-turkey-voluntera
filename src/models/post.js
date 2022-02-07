@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
+const { models } = require('../constants.json');
 
-const threadSchema = new mongoose.Schema(
+const threadCommentSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: models.user,
       required: true,
     },
-
     content: {
       type: String,
+      maxlength: 1000,
       required: true,
     },
     date: {
@@ -24,18 +25,19 @@ const commentSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: models.user,
       required: true,
     },
     content: {
       type: String,
+      maxlength: 1000,
       required: true,
     },
     date: {
       type: Date,
       required: true,
     },
-    threads: [threadSchema],
+    thread: [threadCommentSchema],
   },
   { timestamps: true }
 );
@@ -44,27 +46,50 @@ const postSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: models.user,
       required: true,
     },
     title: {
       type: String,
+      maxlength: 100,
       required: true,
     },
     likes: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: models.user,
+        },
+      ],
+      default: [],
     },
     content: {
       type: String,
+      maxlength: 2200,
       required: true,
     },
     date: {
       type: Date,
       required: true,
     },
-    comments: [commentSchema],
+    comments: {
+      type: [commentSchema],
+      default: [],
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Post', postSchema);
+postSchema.virtual('numberOfLikes').get(function () {
+  return this.likes.length;
+});
+
+postSchema.virtual('numberOfComments').get(function () {
+  return this.comments.length;
+});
+
+commentSchema.virtual('numberOfThreadComments').get(function () {
+  return this.thread.length;
+});
+
+module.exports = mongoose.model(models.post, postSchema);
