@@ -1,0 +1,9 @@
+{
+  "models": {
+    "user": "User",
+    "project": "Project",
+    "post": "Post",
+    "volunteer": "Volunteer",
+    "organization": "Organization"
+  }
+}
