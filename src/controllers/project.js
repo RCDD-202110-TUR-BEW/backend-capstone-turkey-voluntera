@@ -1,86 +1,100 @@
+const Project = require('../models/project');
 
-const Project = require("../models/project");
-
-exports.getAllProjects = (req, res) => {
-    Project.find().then((data) => {
-        return res.send(data);
-    })
+exports.getAllProjects = async (_, res) => {
+  try {
+    const projects = await Project.find();
+    res.json(projects);
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
 };
 
-exports.getOneProject = (req, res) => {
-    Project.findOne({ _id: req.params.id }, (err, data) => {
-        if (err || !data) {
-            res.status(422);
-            return res.send({ err: `No post with this id: ${req.params.id}` });
-        }
-        return res.send(data);
-    });
-};
-
-exports.addProject = (req, res) => {
-    async function saveData() {
-        const thisProject = new Project({ ...req.body });
-        try {
-            const body = await thisProject.save();
-            return res.status(201).send(body);
-        } catch (err) {
-            res.status(422);
-            return res.send({ err });
-        }
-    }
-    saveData();
-};
-
-exports.filterProjects = (req, res) => {
-    const { ngo, tag } = req.query;
-    const isFilteredByTag = tag ? { tags: { $in: tag } } : {};
-    const isFilterdByNgo = ngo ? { "ngo.name": ngo } : {};
-    if (ngo || tag) {
-        Project.find({ ...isFilterdByNgo, ...isFilteredByTag }, (err, data) => {
-            if (!data.length || err) {
-                res.status(422);
-                return res.send({ err: "No Project found" });
-            }
-            return res.send(data);
-        });
+exports.getOneProject = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      res
+        .status(422)
+        .json({ message: "the project you are looking for wasn't found" });
     } else {
-        res.status(400);
-        return res.send({ err: "Projects can only be filtered by 'ngo' or 'tag'" });
+      res.json(project);
     }
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
 };
 
-exports.updateProject = (req, res) => {
-    Project.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, data) => {
-        if (err) {
-            return res.send({ err });
-        }
-        return res.send(data);
-    });
+exports.addProject = async (req, res) => {
+  const projectData = req.body;
+  try {
+    const newProject = await Project.create(projectData);
+    res.status(201).json(newProject);
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
+};
+
+exports.filterProjects = async (req, res) => {
+  const { creator, location } = req.query;
+  if (!creator && !location) {
+    res
+      .status(400)
+      .json({ message: 'make sure you send a valid query parameter' });
+  } else {
+    const query = {};
+    if (creator) query.creator = creator;
+    if (location) query.location = location;
+    try {
+      const projects = await Project.find(query);
+      if (projects.length === 0) {
+        res.status(422).json({ message: 'No projects by these parameters' });
+      } else {
+        res.json(projects);
+      }
+    } catch (err) {
+      res.status(422).json({ message: err.message });
+    }
+  }
+};
+
+exports.updateProject = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedProject = await Project.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+      }
+    );
+    if (!updatedProject) {
+      res
+        .status(422)
+        .json({ message: "the project you are trying to update wasn't found" });
+    } else {
+      res.json(updatedProject);
+    }
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
 };
 
 exports.removeProject = (req, res) => {
-    Project.deleteOne({ _id: req.params.id }, function (err) {
-        if (err) {
-            res.status(422);
-            return res.send({ err: "Not deleted" });
-        }
-        return res.status(204).send({ message: "Document deleted succesfully" });
-    });
+  Project.deleteOne({ _id: req.params.id }, (err) => {
+    if (err) {
+      res.status(422);
+      return res.json({ err: 'Not deleted' });
+    }
+    return res.status(204).send();
+  });
 };
 
-exports.addApp = (req, res) => {
-    Project.findOne({ _id: req.params.id }, (err, data) => {
-        if (err) {
-            res.status(422);
-            return res.send({ err: `No Project with this id: ${req.params.id}` });
-        }
-        data.save((err, data) => {
-            if (err) {
-                res.status(422);
-                return res.send({ err: err });
-            }
-            return res.send(data);
-
-        });
-    });
+exports.addApp = async (req, res) => {
+  const project = await Project.findOne({ _id: req.params.id });
+  project.applications.push(req.body);
+  project.save();
+  return res.json(project);
 };
