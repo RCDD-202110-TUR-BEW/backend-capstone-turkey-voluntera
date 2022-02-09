@@ -33,7 +33,6 @@ const volunteerSchema = new mongoose.Schema(
     },
     birthDate: {
       type: Date,
-      required: true,
     },
     skills: {
       type: [String],
