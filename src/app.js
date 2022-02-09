@@ -4,7 +4,6 @@ const passport = require('passport');
 require('dotenv').config();
 
 const Database = require('./db');
-const googleStr = require('./utils/google');
 const authRouter = require('./routes/auth');
 
 const app = express();
@@ -21,9 +20,8 @@ app.use(
     },
   })
 );
-
-passport.use(googleStr);
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/auth', authRouter);
 
 const port =
