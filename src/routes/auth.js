@@ -1,20 +1,24 @@
 const express = require('express');
-const passport = require('passport');
+const passportGoogle = require('../utils/google');
 const authControllers = require('../controllers/auth');
 
 const router = express.Router();
 
 router.get(
   '/signin',
-  passport.authenticate('google', { scope: ['profile', 'email', 'openid'] })
+  passportGoogle.authenticate('google', {
+    scope: ['profile', 'email', 'openid'],
+  })
 );
 router.get(
   '/google/callback',
-  passport.authenticate('google', {
+  passportGoogle.authenticate('google', {
     failureRedirect: '/',
     failureMessage: true,
   }),
   authControllers.callback
 );
+
+router.get('/signout', authControllers.signout);
 
 module.exports = router;
