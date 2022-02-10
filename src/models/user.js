@@ -41,10 +41,6 @@ const volunteerSchema = new mongoose.Schema(
 
 const userSchema = new mongoose.Schema(
   {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
     username: {
       type: String,
     },

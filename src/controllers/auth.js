@@ -7,18 +7,19 @@ exports.generalsignin = async (req, res) => {
   const volunteer = await Volunteer.findOne({ email });
   const organization = await Organization.findOne({ email });
 
+  const volunteerpassword = await Volunteer.findOne({ password });
+  const organizationpassword = await Organization.findOne({ password });
+
   let volunteerororganization = null;
 
-  if (volunteer) {
+  if (volunteer && volunteerpassword) {
     volunteerororganization = volunteer;
-  } else if (organization) {
+  } else if (organization && organizationpassword) {
     volunteerororganization = organization;
   }
 
   if (!volunteerororganization) {
-    return res
-      .status(400)
-      .render('user/signin', { error: 'Wrong username,email or password' });
+    return res.status(400).json({ error: 'Wrong username,email or password' });
   }
 
   const isValidPassword = await bcrypt.compare(
@@ -26,17 +27,19 @@ exports.generalsignin = async (req, res) => {
     volunteerororganization.passwordhash
   );
   if (!isValidPassword) {
-    return res
-      .status(400)
-      .render('user/signin', { error: 'Wrong username,email or password' });
+    return res.status(400).json({ error: 'Wrong username,email or password' });
   }
   if (volunteer) {
     req.user = volunteer;
   } else if (organization) {
     req.user = organization;
   }
-  res.setHeader('volunteer', volunteerororganization.id);
-  return res.status(200).redirect('user/authenticated');
+  res.setHeader('user', volunteerororganization.id);
+  return res.status(200).json({
+    // eslint-disable-next-line no-underscore-dangle
+    organizationid: volunteerororganization._id,
+    message: `${req.user} signup is successfull.`,
+  });
 };
 
 exports.volunteersignup = async (req, res) => {
@@ -52,27 +55,29 @@ exports.volunteersignup = async (req, res) => {
   } = req.body;
 
   if (password !== password2) {
-    return res
-      .status(400)
-      .render('user/signupvolunteer', { error: 'passwords do not match' });
+    return res.status(400).json({ error: 'passwords do not match' });
   }
 
   if (!birthdate) {
-    return res
-      .status(400)
-      .render('user/signupvolunteer', { error: 'birthday missing' });
+    return res.status(400).json({ error: 'birthday missing' });
   }
 
   if (!skills) {
-    return res
-      .status(400)
-      .render('user/signupvolunteer', { error: 'skills missing' });
+    return res.status(400).json({ error: 'skills missing' });
   }
 
   const volunteer = await Volunteer.findOne({ email });
   if (volunteer) {
-    return res.status(400).render('user/signup', {
+    return res.status(400).json({
       error: `${email}: there is already a volunteer with this email`,
+    });
+  }
+
+  const organization = await Organization.findOne({ email });
+  const organizationpassword = await Organization.findOne({ password });
+  if (volunteer && organizationpassword === password) {
+    return res.status(400).json({
+      error: `${email}: you have other account with this email as a organization. You need to come up with a different password if you want to use the same email.`,
     });
   }
 
@@ -88,43 +93,48 @@ exports.volunteersignup = async (req, res) => {
     passwordhash,
   });
 
-  res.setHeader('volunteer', newvolunteer.id);
+  res.setHeader('user', newvolunteer.id);
   req.user = newvolunteer;
-  return res.status(200).redirect('user/authenticated');
+  return res.status(200).json({
+    // eslint-disable-next-line no-underscore-dangle
+    volunteerid: newvolunteer._id,
+    message: 'Volunteer is successfully created.',
+  });
 };
 
 exports.organizationsignup = async (req, res) => {
   const { name, email, description, password, password2, address } = req.body;
+  // console.log(req.body);
 
-  if (password !== password2) {
-    return res
-      .status(400)
-      .render('user/signuporganization', { error: 'passwords do not match' });
+  if (!password || password !== password2) {
+    return res.status(400).json({ error: 'passwords do not match' });
   }
 
   if (!description) {
-    return res
-      .status(400)
-      .render('user/signuporganization', { error: 'description missing' });
+    return res.status(400).json({ error: 'description missing' });
   }
 
   if (!address) {
-    return res
-      .status(400)
-      .render('user/signuporganization', { error: 'address missing' });
+    return res.status(400).json({ error: 'address missing' });
   }
-
+  const volunteer = await Volunteer.findOne({ email });
+  const volunteerpassword = await Volunteer.findOne({ password });
+  if (volunteer && volunteerpassword === password) {
+    return res.status(400).json({
+      error: `${email}: you have other account with this email as a volunteer. You need to come up with a different password if you want to use the same email.`,
+    });
+  }
   // User must not exist in the database for sign up request
   const organization = await Organization.findOne({ email });
   if (organization) {
-    return res.status(400).render('user/signuporganization', {
-      error: `${email}: there is already a organization with this email`,
+    return res.status(400).json({
+      error: `${email}: there is already an organization with this email`,
     });
   }
 
   const passwordhash = await bcrypt.hash(password, 10);
 
-  const neworganization = await Volunteer.create({
+  const neworganization = await Organization.create({
     name,
     email,
     description,
@@ -132,17 +142,21 @@ exports.organizationsignup = async (req, res) => {
     passwordhash,
   });
 
-  res.setHeader('organization', neworganization.id);
+  res.setHeader('user', neworganization.id);
   req.user = neworganization;
-  return res.status(200).redirect('user/authenticated');
+  return res.status(200).json({
+    // eslint-disable-next-line no-underscore-dangle
+    organizationid: neworganization._id,
+    message: 'Organization is successfully created.',
+  });
 };
 
 exports.signout = async (req, res) => {
   res.setHeader('user', null);
   req.user = null;
-  res.redirect('/');
+  return res.status(200).json({ message: 'Successfuly logged out' });
 };
 
 exports.authenticated = async (req, res) => {
-  res.render('user/authenticated');
+  // res.render('user/authenticated');
 };

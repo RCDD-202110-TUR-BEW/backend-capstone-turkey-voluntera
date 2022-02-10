@@ -6,8 +6,8 @@ const authController = require('../controllers/auth');
 
 router.post('/signin', authController.generalsignin);
 router.post('/signupvolunteer', authController.volunteersignup);
-router.post('/signupvolunteer', authController.volunteersignup);
+router.post('/signuporganization', authController.organizationsignup);
 router.get('/signout', authController.signout);
-router.get('/authenticated', authController.authenticated);
+// router.get('/authenticated', authController.authenticated);
 
 module.exports = router;
