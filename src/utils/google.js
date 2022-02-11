@@ -1,13 +1,13 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oidc');
-const { User, Volunteer } = require('../models/user');
+const { User } = require('../models/user');
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GAPP_CLIENT,
       clientSecret: process.env.GAPP_SECRET,
-      callbackURL: 'http://localhost:8000/auth/google/callback',
+      callbackURL: process.env.GAPP_CALLBACK_URL,
       scope: ['profile', 'email', 'openid'],
     },
     async (_, profile, cb) => {
@@ -15,27 +15,22 @@ passport.use(
     Check if a user with googleId or email exists. 
     Create user if there is no user associated with credentials 
     */
-      User.findOne(
-        {
+      try {
+        const usr = await User.findOne({
           $or: [{ googleId: profile.id }, { email: profile.emails[0].value }],
-        },
-        (err, user) => {
-          if (err) return cb(err);
-
-          if (!user) {
-            const newUser = {
-              email: profile.emails[0].value,
-              googleId: profile.id,
-              firstName: profile.name.givenName,
-              lastName: profile.name.familyName,
-            };
-            const createdUser = Volunteer.create(newUser);
-            return cb(null, createdUser);
-          }
-
-          return cb(null, user);
+        });
+        if (!usr) {
+          const newUser = {
+            email: profile.emails[0].value,
+            googleId: profile.id,
+          };
+          const createdUser = await User.create(newUser);
+          return cb(null, createdUser);
         }
-      );
+        return cb(null, usr);
+      } catch (err) {
+        return cb(err);
+      }
     }
   )
 );
