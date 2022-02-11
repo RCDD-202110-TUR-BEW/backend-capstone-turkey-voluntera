@@ -5,7 +5,7 @@ const authControllers = require('../controllers/auth');
 const router = express.Router();
 
 router.get(
-  '/signin',
+  '/google',
   passportGoogle.authenticate('google', {
     scope: ['profile', 'email', 'openid'],
   })
