@@ -1,14 +1,21 @@
 const Project = require('../models/project');
 
+// eslint-disable-next-line consistent-return
 exports.getAllProjects = async (_, res) => {
   try {
     const projects = await Project.find();
+    if (projects.length === 0) {
+      res.json({ message: 'no projects in the database' });
+      return 'no projects in the database';
+    }
     res.json(projects);
+    return projects;
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
 };
 
+// eslint-disable-next-line consistent-return
 exports.getOneProject = async (req, res) => {
   const { id } = req.params;
   try {
@@ -17,24 +24,30 @@ exports.getOneProject = async (req, res) => {
       res
         .status(422)
         .json({ message: "the project you are looking for wasn't found" });
-    } else {
-      res.json(project);
+      return "the project you are looking for wasn't found";
     }
+    res.json(project);
+    return project;
   } catch (err) {
     res.status(422).json({ message: err.message });
+    return err.message;
   }
 };
 
+// eslint-disable-next-line consistent-return
 exports.addProject = async (req, res) => {
   const projectData = req.body;
   try {
     const newProject = await Project.create(projectData);
     res.status(201).json(newProject);
+    return projectData;
   } catch (err) {
     res.status(422).json({ message: err.message });
+    return err.message;
   }
 };
 
+// eslint-disable-next-line consistent-return
 exports.filterProjects = async (req, res) => {
   const { creator, location } = req.query;
   if (!creator && !location) {
@@ -49,15 +62,18 @@ exports.filterProjects = async (req, res) => {
       const projects = await Project.find(query);
       if (projects.length === 0) {
         res.status(422).json({ message: 'No projects by these parameters' });
-      } else {
-        res.json(projects);
+        return 'projects';
       }
+      res.json(projects);
+      return projects;
     } catch (err) {
       res.status(422).json({ message: err.message });
+      return err.message;
     }
   }
 };
 
+// eslint-disable-next-line consistent-return
 exports.updateProject = async (req, res) => {
   const { id } = req.params;
   try {
@@ -74,9 +90,10 @@ exports.updateProject = async (req, res) => {
       res
         .status(422)
         .json({ message: "the project you are trying to update wasn't found" });
-    } else {
-      res.json(updatedProject);
+      return "the project you are trying to update wasn't found";
     }
+    res.json(updatedProject);
+    return updatedProject;
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
@@ -96,5 +113,5 @@ exports.addApp = async (req, res) => {
   const project = await Project.findOne({ _id: req.params.id });
   project.applications.push(req.body);
   project.save();
-  return res.json(project);
+  res.send('your application was successfully passed');
 };

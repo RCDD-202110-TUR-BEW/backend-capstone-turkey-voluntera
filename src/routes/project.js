@@ -4,7 +4,7 @@ const router = express.Router();
 
 const projectController = require('../controllers/project');
 
-router.get(projectController.getAllProjects);
+router.get('/', projectController.getAllProjects);
 router.post('/add', projectController.addProject);
 router.get('/filter', projectController.filterProjects);
 router.get('/:id', projectController.getOneProject);
