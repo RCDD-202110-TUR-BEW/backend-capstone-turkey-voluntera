@@ -7,6 +7,7 @@ exports.getAllProjects = async (_, res) => {
     if (projects.length === 0) {
       res.json(projects);
       return projects;
+    }
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
@@ -58,8 +59,9 @@ exports.filterProjects = async (req, res) => {
     try {
       const projects = await Project.find(query);
       if (projects.length === 0) {
-      res.json(projects);
-      return projects;
+        res.json(projects);
+        return projects;
+      }
     } catch (err) {
       res.status(422).json({ message: err.message });
       return err.message;
