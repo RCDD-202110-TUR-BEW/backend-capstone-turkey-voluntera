@@ -22,11 +22,7 @@ const projects = [
 
 let id = 0;
 describe('connecting,clearing and preloading the database', () => {
-<<<<<<< HEAD
   beforeEach(async () => {
-=======
-  beforeAll(async () => {
->>>>>>> 04a73914c71784399366f233f137b93eec58c9b2
     await db.getConnection();
     await db.dropDatabase();
     const response = await request(server)
@@ -35,11 +31,7 @@ describe('connecting,clearing and preloading the database', () => {
       .send(projects[0]);
   });
   afterAll(async () => {
-<<<<<<< HEAD
-    // await db.dropDatabase();
-=======
     db.dropDatabase();
->>>>>>> 04a73914c71784399366f233f137b93eec58c9b2
     db.closeConnection();
     server.close();
   });
@@ -63,7 +55,7 @@ describe('connecting,clearing and preloading the database', () => {
         .post(`/api/project/app/${id}`)
         .set('Content-Type', 'application/json')
         .send({
-          applicant: 'kishi',
+          applicant: 'ahmet',
         });
       expect(response.header['content-type']).toContain(
         'text/html; charset=utf-8'
