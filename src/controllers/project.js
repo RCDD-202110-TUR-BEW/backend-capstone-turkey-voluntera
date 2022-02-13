@@ -5,16 +5,8 @@ exports.getAllProjects = async (_, res) => {
   try {
     const projects = await Project.find();
     if (projects.length === 0) {
-<<<<<<< HEAD
       res.json(projects);
       return projects;
-=======
-      res.json({ message: 'no projects in the database' });
-      return 'no projects in the database';
->>>>>>> 04a73914c71784399366f233f137b93eec58c9b2
-    }
-    res.json(projects);
-    return projects;
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
@@ -66,14 +58,6 @@ exports.filterProjects = async (req, res) => {
     try {
       const projects = await Project.find(query);
       if (projects.length === 0) {
-<<<<<<< HEAD
-        res.status.json(projects);
-        return projects;
-=======
-        res.status(422).json({ message: 'No projects by these parameters' });
-        return 'projects';
->>>>>>> 04a73914c71784399366f233f137b93eec58c9b2
-      }
       res.json(projects);
       return projects;
     } catch (err) {
