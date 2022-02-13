@@ -22,7 +22,7 @@ const projects = [
 
 let id = 0;
 describe('connecting,clearing and preloading the database', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await db.getConnection();
     await db.dropDatabase();
     const response = await request(server)
