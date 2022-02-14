@@ -3,11 +3,9 @@ require('dotenv').config();
 const Database = require('./db');
 
 const app = express();
-const projectRoutes = require('./routes/project');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/api/project', projectRoutes);
 
 const port =
   process.env.NODE_ENV === 'development'
@@ -18,11 +16,11 @@ const dbUrl =
     ? process.env.DB_DEV_URL
     : process.env.DB_PRODUCTION_URL;
 
-const db = new Database(dbUrl);
-db.getConnection();
+if (process.env.NODE_ENV !== 'test') {
+  const db = new Database(dbUrl);
+  db.getConnection();
 
-const server = app.listen(port, () => {
-  console.log(`Server is listening on port: 3000`);
-});
-
-module.exports = { server, db };
+  app.listen(port, () => {
+    console.log(`Server is listening on port: ${port}`);
+  });
+}
