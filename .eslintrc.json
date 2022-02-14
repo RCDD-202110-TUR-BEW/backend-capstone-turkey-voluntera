@@ -13,6 +13,12 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "allowModules": ["supertest"]
+      }
+    ],
     "no-unused-vars": "warn",
     "no-console": "warn",
     "func-names": "off",
