@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = async (targetMail, subject, html) => {
   const info = await transporter.sendMail({
-    from: process.env.GOOGLE_ACCOUNT,
+    from: `Voluntera Team <${process.env.GOOGLE_ACCOUNT}>`,
     to: targetMail,
     subject,
     html,
