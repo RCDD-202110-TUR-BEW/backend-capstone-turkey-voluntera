@@ -3,9 +3,17 @@ require('dotenv').config();
 const Database = require('./db');
 
 const app = express();
+const projectRoutes = require('./routes/project');
+const postRoutes = require('./routes/post');
+const commentRoutes = require('./routes/comment');
+const profileRoutes = require('./routes/profile');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use('/api/project', projectRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
+app.use('/api/profile', profileRoutes);
 
 const port =
   process.env.NODE_ENV === 'development'
