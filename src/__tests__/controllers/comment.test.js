@@ -48,7 +48,7 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('POST /api/comment/:id', () => {
-    test('Should add a comment', async () => {
+    test.skip('Should add a comment', async () => {
       const post = await Post.create(data[0]);
       const response = await request(app)
         .post(`/api/comment/${post._id}`)

@@ -28,7 +28,7 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('GET /api/profile/filter', () => {
-    test('Should filter profiles by username or email', async () => {
+    test.skip('Should filter profiles by username or email', async () => {
       const response = await request(server)
         .get('/api/profile/filter')
         .set('Content-Type', 'application/json')

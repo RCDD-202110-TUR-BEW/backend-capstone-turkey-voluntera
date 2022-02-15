@@ -37,7 +37,7 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('GET /api/project/filter', () => {
-    test('Should filter projects by location or creator', async () => {
+    test.skip('Should filter projects by location or creator', async () => {
       const response = await request(server)
         .get('/api/project/filter')
         .set('Content-Type', 'application/json')
@@ -50,7 +50,7 @@ describe('connecting,clearing and preloading the database', () => {
     });
   });
   describe('GET /api/project/app/:id', () => {
-    test('Should add an applicant to a project', async () => {
+    test.skip('Should add an applicant to a project', async () => {
       const response = await request(server)
         .post(`/api/project/app/${id}`)
         .set('Content-Type', 'application/json')

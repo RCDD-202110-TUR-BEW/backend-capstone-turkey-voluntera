@@ -35,7 +35,7 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('GET /api/post/filter', () => {
-    test('Should filter posts by sender or title', async () => {
+    test.skip('Should filter posts by sender or title', async () => {
       const response = await request(server)
         .get('/api/post/filter')
         .set('Content-Type', 'application/json')
@@ -48,7 +48,7 @@ describe('connecting,clearing and preloading the database', () => {
     });
   });
   describe('GET /api/post/app/:id', () => {
-    test('Should add a like to the post', async () => {
+    test.skip('Should add a like to the post', async () => {
       const response = await request(server)
         .post(`/api/post/like/${id}`)
         .set('Content-Type', 'application/json');
