@@ -1,10 +1,14 @@
 const Post = require('../models/post');
 
 exports.addComment = async (req, res) => {
-  const post = await Post.findOne({ _id: req.params.id });
-  post.comments.push(req.body);
-  await post.save();
-  return res.json(post);
+  try {
+    const post = await Post.findById(req.params.id);
+    post.comments.push(req.body);
+    await post.save();
+    return res.json(post);
+  } catch (err) {
+    return res.json(err);
+  }
 };
 
 exports.getOneComment = async (req, res) => {

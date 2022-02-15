@@ -1,10 +1,15 @@
 const request = require('supertest');
-const { server, db } = require('../../app');
+const Database = require('../../db');
+const app = require('../../app');
+const Post = require('../../models/post');
 
+const db = new Database(process.env.DB_TEST_URL);
+
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const data = [
   {
     _id: '62013b18541f0fe8cfbe4384',
-    sender: 'Ahmet',
+    sender: '62013b18541f0fe8cfbe4384',
     title: 'a title',
     content: 'a small post',
     date: '01/01/2023',
@@ -16,30 +21,40 @@ const data = [
   },
 ];
 
-let id = 0;
 describe('connecting,clearing and preloading the database', () => {
-  beforeEach(async () => {
-    await db.getConnection();
-    await db.dropDatabase();
-    const response = await request(server)
-      .post('/api/project/add')
-      .set('Content-Type', 'application/json')
-      .send(data[0]);
+  beforeAll(async () => {
+    try {
+      await db.getConnection();
+    } catch (err) {
+      console.log(err);
+    }
   });
+
+  beforeEach(async () => {
+    try {
+      await db.dropDatabase();
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   afterAll(async () => {
-    db.dropDatabase();
-    db.closeConnection();
-    server.close();
+    try {
+      await db.dropDatabase();
+      await db.closeConnection();
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   describe('POST /api/comment/:id', () => {
     test('Should add a comment', async () => {
-      const response = await request(server)
-        .get('/api/comment/:id')
+      const post = await Post.create(data[0]);
+      const response = await request(app)
+        .post(`/api/comment/${post._id}`)
         .set('Content-Type', 'application/json')
         .send(data[1]);
-      // eslint-disable-next-line no-underscore-dangle
-      id = response.body[0]._id;
+
       expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
       expect(response.body.content).toBe(data[1].content);
