@@ -33,7 +33,6 @@ const volunteerSchema = new mongoose.Schema(
     },
     birthDate: {
       type: Date,
-      required: true,
     },
     skills: {
       type: [String],
@@ -106,4 +105,4 @@ const Organization = User.discriminator(
   organizationSchema
 );
 
-module.exports = { Volunteer, Organization };
+module.exports = { Volunteer, Organization, User };
