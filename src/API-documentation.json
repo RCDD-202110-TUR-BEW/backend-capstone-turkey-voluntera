@@ -1,0 +1,576 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Voluntera API Documentation",
+    "description": "This is Voluntera application documentation which was made with Express and documented with swagger",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Voluntera team",
+      "url": "https://re-coded.com",
+      "email": "ibraheemhajjar91@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Projects",
+      "description": "Projects endpoints"
+    },
+    {
+      "name": "Profile",
+      "description": "users profile endpoints"
+    },
+    {
+      "name": "Posts",
+      "description": "post endpoints"
+    },
+    {
+      "name": "comments",
+      "description": "comments endpoints"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "the username of the user",
+            "maxLength": 25
+          },
+          "email": {
+            "type": "string",
+            "description": "the user email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "the user password"
+          },
+          "googleId": {
+            "type": "string",
+            "description": "the Id provided from google when sign in with google"
+          },
+          "posts": {
+            "type": "array",
+            "description": "an array of posts' Id's which was created by the user",
+            "default": []
+          },
+          "projects": {
+            "type": "array",
+            "description": "an array of projects' Id's which was created by the user",
+            "default": []
+          },
+          "age": {
+            "type": "number",
+            "description": "the age of volunteer user",
+            "format": "virtual field"
+          },
+          "userType": {
+            "type": "string",
+            "description": "user type volunteer or organization"
+          },
+          "numberOfPosts": {
+            "type": "number",
+            "description": "the number of posts was created by the user",
+            "format": "virtual field"
+          },
+          "numberOfProjects": {
+            "type": "number",
+            "description": "the number of projects was created by the organization user",
+            "format": "virtual field"
+          }
+        },
+        "discriminator": {
+          "propertyName": "userType"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Volunteer"
+          },
+          {
+            "$ref": "#/components/schemas/Organization"
+          }
+        ]
+      },
+      "Volunteer": {
+        "type": "object",
+        "description": "schema has the fields should be added to 'user' schema when the user type is 'volunteer'",
+        "required": ["firstName", "lastName", "birthDate"],
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "volunteer first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "volunteer last name"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "the date of volunteer's birthday"
+          },
+          "skills": {
+            "type": "array",
+            "description": "the skills that the volunteer has",
+            "default": []
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "description": "schema has the fields should be added to 'user' schema when the user type is 'organization'",
+        "required": ["name", "description", "address"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "the name of the organization",
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "description": "the organization description",
+            "maxLength": 2200
+          },
+          "address": {
+            "type": "string",
+            "description": "the address of the organization"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "required": ["creator", "title", "type", "address", "isOpen", "date"],
+        "properties": {
+          "creator": {
+            "type": "string",
+            "format": "object id",
+            "description": "an id referred to The user who created the project"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the project"
+          },
+          "type": {
+            "type": "string",
+            "description": "The volunteering type required for the project",
+            "enum": ["Event", "Part-time", "Full-time"]
+          },
+          "address": {
+            "type": "string",
+            "description": "The location or address of the project"
+          },
+          "isOpen": {
+            "type": "boolean",
+            "description": "The status of the project whether open or closed"
+          },
+          "necessarySkills": {
+            "type": "array",
+            "description": "The necessary skills to volunteering for the project",
+            "default": []
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "creation date of the project"
+          },
+          "applications": {
+            "type": "array",
+            "description": "an array of applications was submitted to apply for the project",
+            "$ref": "#/components/schemas/Application"
+          },
+          "numberOfApplications": {
+            "type": "number",
+            "format": "virtual field",
+            "description": "the number of applications received on the project"
+          }
+        },
+        "example": {
+          "creator": "620403b7a34e5ab32d6abc3d",
+          "title": "The mercy corps",
+          "type": "Part-time",
+          "address": "Istanbul/Turkey",
+          "isOpen": true,
+          "necessarySkills": [
+            "speaking english, good communication skills",
+            "driving license"
+          ],
+          "date": "2022-05-30T18:11:03.564+00:00",
+          "applications": [
+            {
+              "applicant": "507f1f77bcf86cd799439011",
+              "date": "2022-06-15T18:11:03.564+00:00",
+              "status": "accepted"
+            },
+            {
+              "applicant": "5349b4ddd2781d08c09890f3",
+              "date": "2022-06-09T18:11:03.564+00:00",
+              "status": "rejected"
+            }
+          ]
+        }
+      },
+      "Application": {
+        "type": "object",
+        "required": ["applicant", "date"],
+        "properties": {
+          "applicant": {
+            "type": "string",
+            "format": "object id",
+            "description": "an id referred to The applicant"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date of application creation"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the application",
+            "enum": ["pending", "accepted", "rejected"],
+            "default": "pending"
+          }
+        },
+        "example": {
+          "applicant": "620403b7a34e5ab32d6abc3d",
+          "date": "2022-02-09T18:11:03.564+00:00",
+          "status": "accepted"
+        }
+      },
+      "Post": {
+        "type": "object",
+        "required": ["sender", "title", "content", "date"],
+        "properties": {
+          "sender": {
+            "type": "string",
+            "format": "object id",
+            "description": "the id referred to the user who wrote the post"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "the title of the post"
+          },
+          "likes": {
+            "type": "array",
+            "format": "array of Id's",
+            "description": "an array of id's referred to the users who liked the post",
+            "default": []
+          },
+          "content": {
+            "type": "string",
+            "description": "the body text of the post",
+            "maxLength": 2200
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "the date of post creation"
+          },
+          "comments": {
+            "type": "array",
+            "description": "an array of comments that made on the post",
+            "$ref": "#/components/schemas/Comment"
+          },
+          "numberOfLikes": {
+            "type": "number",
+            "format": "virtual field",
+            "description": "the number of likes made on the post"
+          },
+          "numberOfComments": {
+            "type": "number",
+            "format": "virtual field",
+            "description": "the number of comments was made on the post"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "required": ["sender", "content", "date"],
+        "properties": {
+          "sender": {
+            "type": "string",
+            "format": "object Id",
+            "description": "the id of the user who wrote the comment"
+          },
+          "content": {
+            "type": "string",
+            "description": "the body text of the comment",
+            "maxLength": 1000
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "the date of comment creation"
+          },
+          "thread": {
+            "type": "array",
+            "description": "an array of threads that was made on the comment",
+            "$ref": "#/components/schemas/Thread"
+          },
+          "numberOfThreadComments": {
+            "type": "number",
+            "format": "virtual field",
+            "description": "the number of threads replied on the comment"
+          }
+        }
+      },
+      "Thread": {
+        "type": "object",
+        "required": ["sender", "content", "date"],
+        "properties": {
+          "sender": {
+            "type": "string",
+            "format": "object Id",
+            "description": "the id of the user who wrote the thread"
+          },
+          "content": {
+            "type": "string",
+            "description": "the body text of the thread",
+            "maxLength": 1000
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "the date of thread creation"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/projects": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "Get all projects in database",
+        "responses": {
+          "200": {
+            "description": "OK, return all projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/api/projects/:id": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "get a specific project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the project",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the specified project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the specified project wasn't found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Projects"],
+        "summary": "update a specific project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the project wanted to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, return the updated project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the specified project wasn't found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Projects"],
+        "summary": "delete a specific project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the project wanted to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "the project was deleted"
+          },
+          "422": {
+            "description": "deletion failed"
+          }
+        }
+      }
+    },
+    "/api/projects/filter": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "get projects filtered by creator and location",
+        "parameters": [
+          {
+            "name": "creator",
+            "in": "query",
+            "description": "creator of the project wanted to be filtered",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "location of the project wanted to be filtered",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the filtered projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid query parameters"
+          },
+          "422": {
+            "description": "no projects were found"
+          }
+        }
+      }
+    },
+    "/api/projects/add": {
+      "post": {
+        "tags": ["Projects"],
+        "summary": "create a new project",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK, return the new created project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "failed to create the project"
+          }
+        }
+      }
+    },
+    "/api/projects/app/:id": {
+      "post": {
+        "tags": ["Projects"],
+        "summary": "create a new application for a project",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Application"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, return the project with added application",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "failed to create the application"
+          }
+        }
+      }
+    }
+  }
+}
