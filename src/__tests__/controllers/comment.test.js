@@ -1,10 +1,10 @@
 const request = require('supertest');
 const Database = require('../../db');
 const app = require('../../app');
-const Post = require('../../models/post');
 
 const db = new Database(process.env.DB_TEST_URL);
 
+jest.setTimeout(30000);
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 const data = [
   {
@@ -48,14 +48,18 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('POST /api/comment/:id', () => {
-    test.skip('Should add a comment', async () => {
-      const post = await Post.create(data[0]);
+    test('Should add a comment', async () => {
+      const newPost = await request(app)
+        .post(`/api/post/add`)
+        .set('Content-Type', 'application/json')
+        .send(data[0]);
+
       const response = await request(app)
-        .post(`/api/comment/${post._id}`)
+        .post(`/api/comment/${newPost._id}`)
         .set('Content-Type', 'application/json')
         .send(data[1]);
 
-      expect(response.header['content-type']).toContain('application/json');
+      // expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
       expect(response.body.content).toBe(data[1].content);
     });

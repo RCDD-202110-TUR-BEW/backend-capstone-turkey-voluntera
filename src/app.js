@@ -25,6 +25,7 @@ const dbUrl =
     : process.env.DB_PRODUCTION_URL;
 
 if (process.env.NODE_ENV !== 'test') {
+  console.log('logged');
   const db = new Database(dbUrl);
   db.getConnection();
 
@@ -32,3 +33,5 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Server is listening on port: ${port}`);
   });
 }
+
+module.exports = app;

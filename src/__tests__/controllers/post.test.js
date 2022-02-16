@@ -47,6 +47,7 @@ describe('connecting,clearing and preloading the database', () => {
       expect(response.body[0].title).toBe(projects[0].title);
     });
   });
+
   describe('GET /api/post/app/:id', () => {
     test.skip('Should add a like to the post', async () => {
       const response = await request(server)
