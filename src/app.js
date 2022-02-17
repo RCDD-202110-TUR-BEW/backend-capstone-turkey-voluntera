@@ -2,10 +2,11 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
-const logger = require('./utils/logger');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
+
+const logger = require('./utils/logger');
 
 const app = express();
 
