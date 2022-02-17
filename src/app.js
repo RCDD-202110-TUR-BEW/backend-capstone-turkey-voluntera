@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
+const logger = require('./utils/logger');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
@@ -38,6 +39,6 @@ if (process.env.NODE_ENV !== 'test') {
   db.getConnection();
 
   app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
+    logger.info(`Server is listening on port: ${port}`);
   });
 }
