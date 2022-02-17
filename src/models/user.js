@@ -75,7 +75,16 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true, discriminatorKey: 'userType' }
+  {
+    timestamps: true,
+    discriminatorKey: 'userType',
+    toObject: {
+      virtuals: true,
+    },
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
 userSchema.virtual('age').get(function () {
