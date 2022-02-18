@@ -18,9 +18,9 @@ class Database {
     }
   }
 
-  getConnection() {
+  async getConnection() {
     if (this.#connection == null) {
-      this.#connect();
+      await this.#connect();
       this.#connection = mongoose.connection;
     }
     return this.#connection;
@@ -32,9 +32,9 @@ class Database {
     });
   }
 
-  dropDatabase() {
+  async dropDatabase() {
     if (this.#connection !== null) {
-      this.#connection.dropDatabase();
+      await this.#connection.dropDatabase();
     }
   }
 }
