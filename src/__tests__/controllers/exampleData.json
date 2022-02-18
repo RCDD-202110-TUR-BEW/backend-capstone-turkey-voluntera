@@ -1,0 +1,33 @@
+{
+  "volunteer": {
+    "firstName": "Halit",
+    "lastName": "Batur",
+    "birthDate": "01/01/2023",
+    "email": "halit@recoded.com"
+  },
+  "organization": {
+    "name": "Recoded",
+    "description": "Best place get tortured",
+    "address": "world wide web",
+    "email": "halit@recoded.com"
+  },
+  "post": {
+    "title": "test post",
+    "content": "This is created for a test",
+    "date": "01/01/2023"
+  },
+  "comment": {
+    "content": "Comment for testing purposes",
+    "date": "01/01/2023"
+  },
+  "project": {
+    "title": "test project",
+    "type": "Event",
+    "address": "world wide web",
+    "isOpen": true,
+    "date": "01/01/2023"
+  },
+  "application": {
+    "date": "01/01/2023"
+  }
+}
