@@ -9,8 +9,6 @@ const exampleData = require('./exampleData.json');
 const db = new Database(process.env.DB_TEST_URL);
 
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-let post;
-let volunteer;
 describe('connecting,clearing and preloading the database', () => {
   beforeAll(async () => {
     try {
@@ -22,11 +20,6 @@ describe('connecting,clearing and preloading the database', () => {
 
   beforeEach(async () => {
     try {
-      volunteer = await Volunteer.create(exampleData.volunteer);
-      post = await Post.create({
-        sender: volunteer._id,
-        ...exampleData.post,
-      });
       await db.dropDatabase();
     } catch (err) {
       console.log(err);
@@ -43,7 +36,12 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('POST /api/comment/:id', () => {
-    test.skip('Should add a comment', async () => {
+    test('Should add a comment', async () => {
+      const volunteer = await Volunteer.create(exampleData.volunteer);
+      const post = await Post.create({
+        sender: volunteer._id,
+        ...exampleData.post,
+      });
       const response = await request(app)
         .post(`/api/comment/comment/${post._id}`)
         .set('Content-Type', 'application/json')
@@ -51,7 +49,9 @@ describe('connecting,clearing and preloading the database', () => {
 
       expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
-      expect(response.body.content).toBe(exampleData.comment.content);
+      expect(response.body.comments[0].content).toBe(
+        exampleData.comment.content
+      );
     });
   });
 });
