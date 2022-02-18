@@ -21,20 +21,20 @@
   ],
   "tags": [
     {
-      "name": "Projects",
-      "description": "Projects endpoints"
+      "name": "Project",
+      "description": "Project endpoints"
     },
     {
-      "name": "Profile",
-      "description": "users profile endpoints"
-    },
-    {
-      "name": "Posts",
+      "name": "Post",
       "description": "post endpoints"
     },
     {
-      "name": "comments",
-      "description": "comments endpoints"
+      "name": "Comment",
+      "description": "comment endpoints"
+    },
+    {
+      "name": "Profile",
+      "description": "profile endpoints"
     }
   ],
   "components": {
@@ -350,9 +350,9 @@
     }
   },
   "paths": {
-    "/api/projects": {
+    "/api/project": {
       "get": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "Get all projects in database",
         "responses": {
           "200": {
@@ -371,9 +371,9 @@
         }
       }
     },
-    "/api/projects/:id": {
+    "/api/project/:id": {
       "get": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "get a specific project by id",
         "parameters": [
           {
@@ -403,7 +403,7 @@
         }
       },
       "put": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "update a specific project by id",
         "parameters": [
           {
@@ -443,7 +443,7 @@
         }
       },
       "delete": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "delete a specific project by id",
         "parameters": [
           {
@@ -466,9 +466,9 @@
         }
       }
     },
-    "/api/projects/filter": {
+    "/api/project/filter": {
       "get": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "get projects filtered by creator and location",
         "parameters": [
           {
@@ -510,9 +510,9 @@
         }
       }
     },
-    "/api/projects/add": {
+    "/api/project/add": {
       "post": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "create a new project",
         "requestBody": {
           "required": true,
@@ -541,9 +541,9 @@
         }
       }
     },
-    "/api/projects/app/:id": {
+    "/api/project/app/:id": {
       "post": {
-        "tags": ["Projects"],
+        "tags": ["Project"],
         "summary": "create a new application for a project",
         "requestBody": {
           "required": true,
@@ -568,6 +568,468 @@
           },
           "422": {
             "description": "failed to create the application"
+          }
+        }
+      }
+    },
+    "/api/post": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "Get all posts in database",
+        "responses": {
+          "200": {
+            "description": "OK, return all posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/api/post/:id": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "get a specific post by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the post",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the specified post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the specified post wasn't found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Post"],
+        "summary": "update a specific post by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the post wanted to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, return the updated post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the specified post wasn't found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Post"],
+        "summary": "delete a specific post by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the post wanted to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "the post was deleted"
+          },
+          "422": {
+            "description": "deletion failed"
+          }
+        }
+      }
+    },
+    "/api/post/filter": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "get posts filtered by sender and title",
+        "parameters": [
+          {
+            "name": "sender",
+            "in": "query",
+            "description": "creator of the post wanted to be filtered",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title of the post wanted to be filtered",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the filtered posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid query parameters"
+          },
+          "422": {
+            "description": "no posts were found"
+          }
+        }
+      }
+    },
+    "/api/post/add": {
+      "post": {
+        "tags": ["Post"],
+        "summary": "create a new post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK, return the new created post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "failed to create the post"
+          }
+        }
+      }
+    },
+    "/api/post/like/:id": {
+      "post": {
+        "tags": ["Post"],
+        "summary": "update number of likes on a specific post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the post",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the array of likes on the post",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "422": {
+            "description": "updating number of likes failed"
+          }
+        }
+      }
+    },
+    "/api/comment/:postId": {
+      "get": {
+        "tags": ["Comment"],
+        "summary": "get a specific comment by providing the id of the post and the id of the comment",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "id of the post which contains the comment we are looking for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "query",
+            "description": "id of the comment we are looking for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the specified comment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the specified comment wasn't found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Comment"],
+        "summary": "delete a specific comment",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "id of the post which contains the comment we want to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "query",
+            "description": "id of the comment we are looking for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "the comment was deleted"
+          },
+          "422": {
+            "description": "deletion failed"
+          }
+        }
+      }
+    },
+    "/api/comment/comment/:id": {
+      "post": {
+        "tags": ["Comment"],
+        "summary": "create a new comment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK, return the post with the new created comment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "failed to create the comment"
+          }
+        }
+      }
+    },
+    "/api/profile/:id": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "get a user profile by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the user profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the user wasn't found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Profile"],
+        "summary": "update a specific user profile by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the user wanted to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, return the updated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "the specified user wasn't found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Profile"],
+        "summary": "delete a specific user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the user wanted to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "the user was deleted"
+          },
+          "422": {
+            "description": "deletion failed"
+          }
+        }
+      }
+    },
+    "/api/profile/filter": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "get profiles filtered by username and email",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "username of the user wanted to be filtered",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "email of the user wanted to be filtered",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return the filtered user profiles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid query parameters"
+          },
+          "422": {
+            "description": "no users were found"
           }
         }
       }
