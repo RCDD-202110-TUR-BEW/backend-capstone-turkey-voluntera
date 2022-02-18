@@ -64,9 +64,6 @@ const projectSchema = new mongoose.Schema(
     toObject: {
       virtuals: true,
     },
-    toJSON: {
-      virtuals: true,
-    },
   }
 );
 

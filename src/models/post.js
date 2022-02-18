@@ -44,9 +44,6 @@ const commentSchema = new mongoose.Schema(
     toObject: {
       virtuals: true,
     },
-    toJSON: {
-      virtuals: true,
-    },
   }
 );
 
@@ -88,9 +85,6 @@ const postSchema = new mongoose.Schema(
   {
     timestamps: true,
     toObject: {
-      virtuals: true,
-    },
-    toJSON: {
       virtuals: true,
     },
   }
