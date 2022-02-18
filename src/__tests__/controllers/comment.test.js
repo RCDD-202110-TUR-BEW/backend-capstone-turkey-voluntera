@@ -1,26 +1,16 @@
 const request = require('supertest');
 const Database = require('../../db');
 const app = require('../../app');
+const Post = require('../../models/post');
+const { User, Volunteer, Organization } = require('../../models/user');
+const Project = require('../../models/project');
+const exampleData = require('./exampleData.json');
 
 const db = new Database(process.env.DB_TEST_URL);
 
-jest.setTimeout(30000);
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-const data = [
-  {
-    _id: '62013b18541f0fe8cfbe4384',
-    sender: '62013b18541f0fe8cfbe4384',
-    title: 'a title',
-    content: 'a small post',
-    date: '01/01/2023',
-  },
-  {
-    sender: 'Hulya',
-    content: 'a comment content',
-    Date: '01/01/2023',
-  },
-];
-
+let post;
+let volunteer;
 describe('connecting,clearing and preloading the database', () => {
   beforeAll(async () => {
     try {
@@ -32,6 +22,11 @@ describe('connecting,clearing and preloading the database', () => {
 
   beforeEach(async () => {
     try {
+      volunteer = await Volunteer.create(exampleData.volunteer);
+      post = await Post.create({
+        sender: volunteer._id,
+        ...exampleData.post,
+      });
       await db.dropDatabase();
     } catch (err) {
       console.log(err);
@@ -48,20 +43,15 @@ describe('connecting,clearing and preloading the database', () => {
   });
 
   describe('POST /api/comment/:id', () => {
-    test('Should add a comment', async () => {
-      const newPost = await request(app)
-        .post(`/api/post/add`)
-        .set('Content-Type', 'application/json')
-        .send(data[0]);
-
+    test.skip('Should add a comment', async () => {
       const response = await request(app)
-        .post(`/api/comment/${newPost._id}`)
+        .post(`/api/comment/comment/${post._id}`)
         .set('Content-Type', 'application/json')
-        .send(data[1]);
+        .send({ sender: volunteer._id, ...exampleData.comment });
 
-      // expect(response.header['content-type']).toContain('application/json');
+      expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
-      expect(response.body.content).toBe(data[1].content);
+      expect(response.body.content).toBe(exampleData.comment.content);
     });
   });
 });
