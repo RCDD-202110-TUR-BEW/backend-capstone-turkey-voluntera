@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
+app.use(errorHandler);
 
 const port =
   process.env.NODE_ENV === 'development'
