@@ -27,7 +27,7 @@ app.use(passport.session());
 app.use('/auth', authRouter);
 const { newsletter, serverStatus } = require('./utils/cron');
 
-const allArticles = async () => {
+const allProjects = async () => {
   const projects = await Project.find();
   const titles = [];
   // eslint-disable-next-line no-plusplus
@@ -36,7 +36,7 @@ const allArticles = async () => {
   }
   newsletter(titles.join());
 };
-allArticles();
+allProjects();
 
 const port =
   process.env.NODE_ENV === 'development'
