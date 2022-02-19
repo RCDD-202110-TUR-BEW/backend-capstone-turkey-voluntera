@@ -56,6 +56,11 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     googleId: String,
+    role: {
+      type: String,
+      enum: ['user', 'moderator', 'admin'],
+      default: 'user',
+    },
     posts: {
       type: [
         {
