@@ -6,7 +6,7 @@ const isAdmin = async (req, res, next) => {
     if (user.role === 'admin') {
       next();
     } else {
-      res.status(400).json({
+      res.status(403).json({
         status: 'Fail',
         message: 'You are trying to access an admin route',
       });
@@ -22,7 +22,7 @@ const isModerator = async (req, res, next) => {
     if (user.role === 'admin' || user.role === 'moderator') {
       next();
     } else {
-      res.status(400).json({
+      res.status(403).json({
         status: 'Fail',
         message: 'You are trying to access a moderator route',
       });
