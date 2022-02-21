@@ -2,6 +2,9 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const Project = require('./models/project');
+const initializeCronTasks = require('./utils/cron');
+
+const today = new Date();
 
 require('dotenv').config();
 
@@ -25,18 +28,19 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
-const { newsletter, serverStatus } = require('./utils/cron');
 
-const allProjects = async () => {
+const upcomingProjects = async () => {
   const projects = await Project.find();
   const titles = [];
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < projects.length; i++) {
-    titles.push(projects[i].title);
+    if (projects[i].date.toString() > today.toString()) {
+      titles.push(projects[i].title);
+    }
   }
-  newsletter(titles.join());
+  initializeCronTasks('Upcoming Projects', 'example@gmail.com', titles.join());
 };
-allProjects();
+upcomingProjects();
 
 const port =
   process.env.NODE_ENV === 'development'
@@ -52,7 +56,6 @@ if (process.env.NODE_ENV !== 'test') {
   db.getConnection();
 
   app.listen(port, () => {
-    serverStatus('Server is running smoothly', `fine at port ${port}`);
     console.log(`Server is listening on port: ${port}`);
   });
 }
