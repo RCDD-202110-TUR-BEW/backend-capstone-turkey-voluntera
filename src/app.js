@@ -6,6 +6,8 @@ require('dotenv').config();
 const Database = require('./db');
 const authRouter = require('./routes/auth');
 
+const logger = require('./utils/logger');
+
 const app = express();
 
 app.use(express.json());
@@ -38,6 +40,6 @@ if (process.env.NODE_ENV !== 'test') {
   db.getConnection();
 
   app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
+    logger.info(`Server is listening on port: ${port}`);
   });
 }
