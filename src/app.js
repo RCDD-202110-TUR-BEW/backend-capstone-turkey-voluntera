@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
 const passport = require('passport');
 require('dotenv').config();
 
@@ -8,7 +9,7 @@ const authRouter = require('./routes/auth');
 
 const app = express();
 app.set('view engine', 'ejs');
-app.set('views', 'views');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -25,10 +26,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
 
-module.exports = app;
 app.get('/', (req, res) => {
   res.render('main');
 });
+
 const port =
   process.env.NODE_ENV === 'development'
     ? process.env.DEVELOPMENT_PORT
