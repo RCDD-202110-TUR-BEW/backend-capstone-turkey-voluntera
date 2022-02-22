@@ -2,12 +2,12 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./API-documentation.json');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./api-documentation.json');
 const app = express();
 
 app.use(express.json());
