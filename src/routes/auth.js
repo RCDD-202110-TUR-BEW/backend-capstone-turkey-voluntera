@@ -11,6 +11,7 @@ router.get(
     scope: ['profile', 'email', 'openid'],
   })
 );
+
 router.get(
   '/google/callback',
   passportGoogle.authenticate('google', {
@@ -29,6 +30,8 @@ router.post(
   authControllers.callback
 );
 
+router.post('/signup/volunteer', authControllers.volunteerSignup);
+router.post('/signup/organization', authControllers.organizationSignup);
 router.get('/signout', authControllers.signout);
 
 module.exports = router;
