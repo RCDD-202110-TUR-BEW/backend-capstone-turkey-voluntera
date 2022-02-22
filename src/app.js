@@ -7,7 +7,8 @@ const Database = require('./db');
 const authRouter = require('./routes/auth');
 
 const app = express();
-
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -24,6 +25,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
 
+module.exports = app;
+app.get('/', (req, res) => {
+  res.render('main');
+});
 const port =
   process.env.NODE_ENV === 'development'
     ? process.env.DEVELOPMENT_PORT
