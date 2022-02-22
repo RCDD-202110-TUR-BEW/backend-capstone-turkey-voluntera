@@ -2,6 +2,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local');
 const { User } = require('../models/user');
+const logger = require('./logger');
 
 passport.use(
   new LocalStrategy(async (username, password, callback) => {
@@ -22,7 +23,7 @@ passport.use(
 
       return callback(null, user);
     } catch (err) {
-      return console.log(err);
+      return logger.error(err);
     }
   })
 );
