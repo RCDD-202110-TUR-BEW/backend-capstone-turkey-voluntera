@@ -2,9 +2,12 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
+const logger = require('./utils/logger');
+const swaggerDocument = require('./api-documentation.json');
 
 const app = express();
 
@@ -24,6 +27,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 const port =
   process.env.NODE_ENV === 'development'
     ? process.env.DEVELOPMENT_PORT
@@ -38,6 +43,6 @@ if (process.env.NODE_ENV !== 'test') {
   db.getConnection();
 
   app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
+    logger.info(`Server is listening on port: ${port}`);
   });
 }
