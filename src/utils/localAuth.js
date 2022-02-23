@@ -23,7 +23,8 @@ passport.use(
 
       return callback(null, user);
     } catch (err) {
-      return logger.error(err);
+      logger.error(err);
+      return callback(null, false, err);
     }
   })
 );
