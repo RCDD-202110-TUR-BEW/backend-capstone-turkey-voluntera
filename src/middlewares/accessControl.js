@@ -1,3 +1,4 @@
+const logger = require('../utils/logger');
 const { User } = require('../models/user');
 
 const isAdmin = async (req, res, next) => {
@@ -12,6 +13,7 @@ const isAdmin = async (req, res, next) => {
       });
     }
   } catch (err) {
+    logger.error(err);
     res.status(500).json(err);
   }
 };
@@ -28,6 +30,7 @@ const isModerator = async (req, res, next) => {
       });
     }
   } catch (err) {
+    logger.error(err);
     res.status(500).json(err);
   }
 };
