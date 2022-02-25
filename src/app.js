@@ -1,26 +1,22 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
+require('dotenv').config();
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
 const logger = require('./utils/logger');
 const swaggerDocument = require('./api-documentation.json');
-
-const app = express();
 const projectRoutes = require('./routes/project');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
 const profileRoutes = require('./routes/profile');
 
+const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/api/project', projectRoutes);
-app.use('/api/post', postRoutes);
-app.use('/api/comment', commentRoutes);
-app.use('/api/profile', profileRoutes);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -33,8 +29,11 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/api/project', projectRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
+app.use('/api/profile', profileRoutes);
 app.use('/auth', authRouter);
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port =
@@ -47,7 +46,6 @@ const dbUrl =
     : process.env.DB_PRODUCTION_URL;
 
 if (process.env.NODE_ENV !== 'test') {
-  console.log('logged');
   const db = new Database(dbUrl);
   db.getConnection();
 
