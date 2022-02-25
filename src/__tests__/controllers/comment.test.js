@@ -32,7 +32,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/comment/comment/${post._id}`)
+        .post(`/api/comment/${post._id}`)
         .set('Content-Type', 'application/json')
         .send({ sender: volunteer._id, ...exampleData.comment });
 
