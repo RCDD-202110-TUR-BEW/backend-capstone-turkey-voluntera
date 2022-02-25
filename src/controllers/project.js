@@ -1,35 +1,30 @@
 const Project = require('../models/project');
 
-// eslint-disable-next-line consistent-return
 exports.getAllProjects = async (_, res) => {
   try {
     const projects = await Project.find();
-    if (projects.length === 0) {
-      res.json(projects);
-      return projects;
+    res.json(projects);
+  } catch (err) {
+    res.status(422).json({ message: err.message });
+  }
+};
+
+exports.getOneProject = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      res
+        .status(422)
+        .json({ message: "the project you are looking for wasn't found" });
+    } else {
+      res.json(project);
     }
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
 };
 
-// eslint-disable-next-line consistent-return
-exports.getOneProject = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const project = await Project.findById(id);
-    if (!project) {
-      return res
-        .status(422)
-        .json({ message: "the project you are looking for wasn't found" });
-    }
-    return res.json(project);
-  } catch (err) {
-    return res.status(422).json({ message: err.message });
-  }
-};
-
-// eslint-disable-next-line consistent-return
 exports.addProject = async (req, res) => {
   const projectData = req.body;
   try {
@@ -42,7 +37,6 @@ exports.addProject = async (req, res) => {
   }
 };
 
-// eslint-disable-next-line consistent-return
 exports.filterProjects = async (req, res) => {
   const { creator, address } = req.query;
   if (!creator && !address) {
@@ -62,27 +56,19 @@ exports.filterProjects = async (req, res) => {
   }
 };
 
-// eslint-disable-next-line consistent-return
 exports.updateProject = async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedProject = await Project.findByIdAndUpdate(
-      id,
-      {
-        $set: req.body,
-      },
-      {
-        new: true,
-      }
-    );
+    const updatedProject = await Project.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     if (!updatedProject) {
       res
         .status(422)
         .json({ message: "the project you are trying to update wasn't found" });
-      return "the project you are trying to update wasn't found";
+    } else {
+      res.json(updatedProject);
     }
-    res.json(updatedProject);
-    return updatedProject;
   } catch (err) {
     res.status(422).json({ message: err.message });
   }
