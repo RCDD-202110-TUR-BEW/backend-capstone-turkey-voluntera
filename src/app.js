@@ -6,6 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
+const errorHandler = require('./middlewares/errorHandler');
 const logger = require('./utils/logger');
 const swaggerDocument = require('./api-documentation.json');
 
@@ -26,6 +27,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
+app.use(errorHandler);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
