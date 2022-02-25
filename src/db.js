@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('./utils/logger');
 
 class Database {
   #connection = null;
@@ -10,9 +11,9 @@ class Database {
   async #connect() {
     try {
       await mongoose.connect(this.url);
-      console.log(`Successfuly connected to ${this.url}`);
+      logger.info(`Successfuly connected to ${this.url}`);
     } catch (err) {
-      console.log(
+      logger.error(
         `Connection to ${this.url} has failed. With error code: \n${err}`
       );
     }

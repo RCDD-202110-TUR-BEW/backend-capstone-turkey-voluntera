@@ -59,7 +59,12 @@ const projectSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toObject: {
+      virtuals: true,
+    },
+  }
 );
 
 projectSchema.virtual('numberOfApplications').get(function () {

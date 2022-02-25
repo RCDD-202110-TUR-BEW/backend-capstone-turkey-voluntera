@@ -33,7 +33,6 @@ const volunteerSchema = new mongoose.Schema(
     },
     birthDate: {
       type: Date,
-      required: true,
     },
     skills: {
       type: [String],
@@ -57,6 +56,11 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     googleId: String,
+    role: {
+      type: String,
+      enum: ['user', 'moderator', 'admin'],
+      default: 'user',
+    },
     posts: {
       type: [
         {
@@ -76,7 +80,13 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true, discriminatorKey: 'userType' }
+  {
+    timestamps: true,
+    discriminatorKey: 'userType',
+    toObject: {
+      virtuals: true,
+    },
+  }
 );
 
 userSchema.virtual('age').get(function () {
@@ -106,4 +116,4 @@ const Organization = User.discriminator(
   organizationSchema
 );
 
-module.exports = { User, Volunteer, Organization };
+module.exports = { Volunteer, Organization, User };

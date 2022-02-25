@@ -39,7 +39,12 @@ const commentSchema = new mongoose.Schema(
     },
     thread: [threadCommentSchema],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toObject: {
+      virtuals: true,
+    },
+  }
 );
 
 const postSchema = new mongoose.Schema(
@@ -78,7 +83,12 @@ const postSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toObject: {
+      virtuals: true,
+    },
+  }
 );
 
 postSchema.virtual('numberOfLikes').get(function () {
