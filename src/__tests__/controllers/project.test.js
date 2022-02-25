@@ -1,67 +1,66 @@
 const request = require('supertest');
-const { server, db } = require('../../app');
+const Database = require('../../db');
+const app = require('../../app');
+const { Volunteer, Organization } = require('../../models/user');
+const Project = require('../../models/project');
+const exampleData = require('./exampleData.json');
 
-const projects = [
-  {
-    _id: '62013b18541f0fe8cfbe4388',
-    creator: 'This should be an ObjectID',
-    title: 'a title',
-    type: 'vol',
-    location: 'Istanbul',
-    isOpen: 'true',
-    date: '01/01/2023',
-  },
-  {
-    title: 'Project 2',
-    skills: ['driving license', 'communication'],
-    location: 'Bursa',
-    Date: new Date('December 18, 2021 03:24:00'),
-    isOpen: 'no',
-  },
-];
+const db = new Database(process.env.DB_TEST_URL);
 
-let id = 0;
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 describe('connecting,clearing and preloading the database', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await db.getConnection();
     await db.dropDatabase();
-    const response = await request(server)
-      .post('/api/project/add')
-      .set('Content-Type', 'application/json')
-      .send(projects[0]);
   });
+
+  beforeEach(async () => {
+    await db.dropDatabase();
+  });
+
   afterAll(async () => {
-    db.dropDatabase();
+    await db.dropDatabase();
     db.closeConnection();
-    server.close();
   });
 
   describe('GET /api/project/filter', () => {
-    test.skip('Should filter projects by location or creator', async () => {
-      const response = await request(server)
+    test('Should filter projects by location or creator', async () => {
+      const organization = await Organization.create(exampleData.organization);
+      const project = await Project.create({
+        creator: organization._id,
+        ...exampleData.project,
+      });
+
+      const response = await request(app)
         .get('/api/project/filter')
         .set('Content-Type', 'application/json')
-        .query({ location: 'Istanbul' });
-      // eslint-disable-next-line no-underscore-dangle
-      id = response.body[0]._id;
+        .query({ address: `${project.address}` });
+
       expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
-      expect(response.body[0].title).toBe(projects[0].title);
+      expect(response.body[0].title).toBe(project.title);
     });
   });
+
   describe('GET /api/project/app/:id', () => {
-    test.skip('Should add an applicant to a project', async () => {
-      const response = await request(server)
-        .post(`/api/project/app/${id}`)
+    test('Should add an applicant to a project', async () => {
+      const volunteer = await Volunteer.create(exampleData.volunteer);
+      const organization = await Organization.create(exampleData.organization);
+      const project = await Project.create({
+        creator: organization._id,
+        ...exampleData.project,
+      });
+
+      const response = await request(app)
+        .post(`/api/project/app/${project._id}`)
         .set('Content-Type', 'application/json')
-        .send({
-          applicant: 'ahmet',
-        });
-      expect(response.header['content-type']).toContain(
-        'text/html; charset=utf-8'
-      );
+        .send({ applicant: volunteer._id, ...exampleData.application });
+
+      const updatedProject = await Project.findById(project._id);
+
+      expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
-      expect(response.text).toBe('your application was successfully passed');
+      expect(updatedProject.numberOfApplications).toBe(1);
     });
   });
 });

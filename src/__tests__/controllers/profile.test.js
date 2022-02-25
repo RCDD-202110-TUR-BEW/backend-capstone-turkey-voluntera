@@ -1,43 +1,52 @@
 const request = require('supertest');
-const { server, db } = require('../../app');
+const Database = require('../../db');
+const app = require('../../app');
+const { Volunteer } = require('../../models/user');
+const exampleData = require('./exampleData.json');
 
-const projects = [
-  {
-    _id: '62013b18541f0fe8cfbe4381',
-    email: 'ahmet@example.com',
-    username: 'ahmetUser',
-    description: 'a description',
-    address: 'Istanbul',
-  },
-];
+const db = new Database(process.env.DB_TEST_URL);
 
-let id = 0;
-describe('connecting,clearing and preloading the database', () => {
-  beforeEach(async () => {
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+describe('profile controller', () => {
+  beforeAll(async () => {
     await db.getConnection();
     await db.dropDatabase();
-    const response = await request(server)
-      .post('/api/profile/add')
-      .set('Content-Type', 'application/json')
-      .send(projects[0]);
   });
+
+  beforeEach(async () => {
+    await db.dropDatabase();
+  });
+
   afterAll(async () => {
-    db.dropDatabase();
+    await db.dropDatabase();
     db.closeConnection();
-    server.close();
   });
 
   describe('GET /api/profile/filter', () => {
-    test.skip('Should filter profiles by username or email', async () => {
-      const response = await request(server)
+    test('Should filter profiles by username or email', async () => {
+      const user = await Volunteer.create(exampleData.volunteer);
+
+      const response = await request(app)
         .get('/api/profile/filter')
         .set('Content-Type', 'application/json')
-        .query({ email: 'ahmet@example.com' });
-      // eslint-disable-next-line no-underscore-dangle
-      id = response.body[0]._id;
+        .query({ email: user.email });
+
       expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
-      expect(response.body[0].username).toBe(projects[0].username);
+      expect(response.body[0]._id).toMatch(user._id.toString());
+    });
+  });
+
+  describe('GET /api/profile/:id', () => {
+    test('Should return the element with given id', async () => {
+      const user = await Volunteer.create(exampleData.volunteer);
+
+      const response = await request(app)
+        .get(`/api/profile/search/${user._id.toString()}`)
+        .set('Content-Type', 'application/json');
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body._id).toBe(user._id.toString());
     });
   });
 });

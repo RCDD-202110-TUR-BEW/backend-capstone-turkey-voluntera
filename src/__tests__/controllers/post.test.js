@@ -1,62 +1,65 @@
 const request = require('supertest');
-const { server, db } = require('../../app');
+const Database = require('../../db');
+const app = require('../../app');
+const Post = require('../../models/post');
+const { Volunteer } = require('../../models/user');
+const exampleData = require('./exampleData.json');
 
-const projects = [
-  {
-    _id: '62013b18541f0fe8cfbe4384',
-    sender: 'Ahmet',
-    title: 'a title',
-    content: 'a small post',
-    date: '01/01/2023',
-  },
-  {
-    _id: '62013b18541f0fe8cfbe4383',
-    sender: 'Fulya',
-    title: 'a second title',
-    content: 'an even smaller post',
-    date: '01/01/2023',
-  },
-];
+const db = new Database(process.env.DB_TEST_URL);
 
-let id = 0;
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 describe('connecting,clearing and preloading the database', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await db.getConnection();
     await db.dropDatabase();
-    const response = await request(server)
-      .post('/api/post/add')
-      .set('Content-Type', 'application/json')
-      .send(projects[0]);
   });
+
+  beforeEach(async () => {
+    await db.dropDatabase();
+  });
+
   afterAll(async () => {
-    db.dropDatabase();
+    await db.dropDatabase();
     db.closeConnection();
-    server.close();
   });
 
   describe('GET /api/post/filter', () => {
-    test.skip('Should filter posts by sender or title', async () => {
-      const response = await request(server)
+    test('Should filter posts by sender or title', async () => {
+      const volunteer = await Volunteer.create(exampleData.volunteer);
+      const post = await Post.create({
+        sender: volunteer._id,
+        ...exampleData.post,
+      });
+
+      const response = await request(app)
         .get('/api/post/filter')
         .set('Content-Type', 'application/json')
-        .query({ sender: 'Ahmet' });
-      // eslint-disable-next-line no-underscore-dangle
-      id = response.body[0]._id;
+        .query({ sender: post.sender.toString() });
+
       expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
-      expect(response.body[0].title).toBe(projects[0].title);
+      expect(response.body[0]._id).toBe(post._id.toString());
     });
   });
 
-  describe('GET /api/post/app/:id', () => {
-    test.skip('Should add a like to the post', async () => {
-      const response = await request(server)
-        .post(`/api/post/like/${id}`)
-        .set('Content-Type', 'application/json');
-      expect(response.header['content-type']).toContain(
-        'text/html; charset=utf-8'
-      );
+  describe('POST /api/post/app/:id', () => {
+    test('Should add a like to the post', async () => {
+      const volunteer = await Volunteer.create(exampleData.volunteer);
+      const post = await Post.create({
+        sender: volunteer._id,
+        ...exampleData.post,
+      });
+
+      const response = await request(app)
+        .post(`/api/post/like/${post._id}`)
+        .set('Content-Type', 'application/json')
+        .send({ userId: `${volunteer._id}` });
+
+      const updatedPost = await Post.findById(post._id);
+
+      expect(response.header['content-type']).toContain('application/json');
       expect(response.statusCode).toBe(200);
+      expect(updatedPost.numberOfLikes).toBe(1);
     });
   });
 });

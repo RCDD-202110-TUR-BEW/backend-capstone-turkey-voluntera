@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const { User, Volunteer, Organization } = require('../models/user');
 
 exports.getOneProfile = async (req, res) => {
   const { id } = req.params;

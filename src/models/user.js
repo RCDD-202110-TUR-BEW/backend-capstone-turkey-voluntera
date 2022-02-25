@@ -106,4 +106,4 @@ const Organization = User.discriminator(
   organizationSchema
 );
 
-module.exports = { Volunteer, Organization };
+module.exports = { User, Volunteer, Organization };

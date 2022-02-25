@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 exports.getAllPosts = async (_, res) => {
   try {
     const posts = await Post.find();
@@ -94,21 +95,24 @@ exports.removePost = (req, res) => {
 
 exports.updateLikes = async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json('Could not found user in request body');
+  }
+
   try {
-    const post = await Post.findOneAndUpdate(
-      { _id: id },
-      { $inc: { likes: 1 } },
-      { new: true }
-    );
+    const post = await Post.findById(id);
+    post.likes.push(userId);
+    await post.save();
 
     if (!post) {
-      res
+      return res
         .status(422)
         .json({ message: "The post you are looking for wasn't found" });
-    } else {
-      res.json({ likes: Post.likes });
     }
+    return res.json({ likes: post.likes });
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    return res.status(422).json({ message: err.message });
   }
 };

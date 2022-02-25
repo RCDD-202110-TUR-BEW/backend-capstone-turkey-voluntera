@@ -19,16 +19,13 @@ exports.getOneProject = async (req, res) => {
   try {
     const project = await Project.findById(id);
     if (!project) {
-      res
+      return res
         .status(422)
         .json({ message: "the project you are looking for wasn't found" });
-      return "the project you are looking for wasn't found";
     }
-    res.json(project);
-    return project;
+    return res.json(project);
   } catch (err) {
-    res.status(422).json({ message: err.message });
-    return err.message;
+    return res.status(422).json({ message: err.message });
   }
 };
 
@@ -47,24 +44,20 @@ exports.addProject = async (req, res) => {
 
 // eslint-disable-next-line consistent-return
 exports.filterProjects = async (req, res) => {
-  const { creator, location } = req.query;
-  if (!creator && !location) {
+  const { creator, address } = req.query;
+  if (!creator && !address) {
     res
       .status(400)
       .json({ message: 'make sure you send a valid query parameter' });
   } else {
     const query = {};
     if (creator) query.creator = creator;
-    if (location) query.location = location;
+    if (address) query.address = address;
     try {
       const projects = await Project.find(query);
-      if (projects.length === 0) {
-        res.json(projects);
-        return projects;
-      }
+      res.json(projects);
     } catch (err) {
       res.status(422).json({ message: err.message });
-      return err.message;
     }
   }
 };
@@ -108,6 +101,6 @@ exports.removeProject = (req, res) => {
 exports.addApp = async (req, res) => {
   const project = await Project.findOne({ _id: req.params.id });
   project.applications.push(req.body);
-  project.save();
-  res.send('your application was successfully passed');
+  await project.save();
+  res.json({ updatedProject: project });
 };
