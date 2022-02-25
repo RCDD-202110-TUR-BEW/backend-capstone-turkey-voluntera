@@ -4,13 +4,15 @@ const passport = require('passport');
 require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 
+const path = require('path');
 const Database = require('./db');
 const authRouter = require('./routes/auth');
 const logger = require('./utils/logger');
 const swaggerDocument = require('./api-documentation.json');
 
 const app = express();
-
+app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -26,9 +28,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
+app.set('views', path.join(__dirname, 'views'));
+app.engine('html', require('ejs').renderFile);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.get('/', (req, res) => {
+  res.render('main');
+});
 const port =
   process.env.NODE_ENV === 'development'
     ? process.env.DEVELOPMENT_PORT

@@ -17,14 +17,13 @@ body {
 .v2_643 {
   width: 214px;
   height: 73px;
-  background: url("../images/v2_643.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   opacity: 1;
   position: absolute;
   top: 42px;
-  left: 170px;
+  left: 200px;
   overflow: hidden;
 }
 .v2_325 {
@@ -42,7 +41,7 @@ body {
 .v2_646 {
   width: 100%;
   height: 615px;
-  background: url("../images/v2_646.png");
+  background: url("https://ibb.co/zSJBxBh");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -55,7 +54,7 @@ body {
 .v2_644 {
   width: 404px;
   height: 154px;
-  background: url("../images/v2_644.png");
+  background: url("https://ibb.co/zSJBxBh");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -68,7 +67,7 @@ body {
 .v2_342 {
   width: 196px;
   height: 154px;
-  background: url("../images/v2_342.png");
+  background: url("https://ibb.co/zSJBxBh");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -1729,7 +1728,7 @@ body {
   width: 537px;
   color: rgba(0,0,0,1);
   position: relative;
-  top: 40px;
+  top: 70px;
   left: 70px;
   font-family: Abel;
   font-weight: Regular;
@@ -1810,7 +1809,7 @@ body {
   color: rgba(0,0,0,0.4699999988079071);
   position: absolute;
   top: 480px;
-  left: 268px;
+  left: 240px;
   font-family: Aoboshi One;
   font-weight: Regular;
   font-size: 20px;
@@ -3527,16 +3526,16 @@ body {
   border-radius: 50%;
 }
 .v2_324 {
-  width: 100%;
-  height: 619px;
-  background: rgba(244,248,255,1);
+  width: 774px;
+  height: 409px;
+  border-radius: 230px;
   opacity: 1;
   position: absolute;
-  top: 0px;
-  left: 311px;
-  border-top-left-radius: 150px;
-  overflow: hidden;
+  top: 30px;
+  left: 717px;
 }
+
+
 .v2_505 {
   width: 178px;
   height: 178px;
@@ -3600,9 +3599,8 @@ body {
   text-align: left;
 }
 .v2_649 {
-  width: 738px;
-  height: 378px;
-  background: url("../images/v2_649.png");
+  width: 1038px;
+  height: 678px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -3612,6 +3610,7 @@ body {
   left: 594px;
   overflow: hidden;
 }
+
 .v2_508 {
   width: 129px;
   height: 129px;
@@ -3634,16 +3633,10 @@ body {
   overflow: hidden;
 }
 .v2_548 {
-  width: 532px;
   color: rgba(86,86,86,1);
   position: absolute;
-  top: 152px;
-  left: 206px;
-  font-family: Abel;
-  font-weight: Regular;
-  font-size: 16px;
-  opacity: 1;
-  text-align: left;
+  top: 162px;
+  left: 137px;
 }
 .v2_549 {
   width: 468px;
@@ -3655,7 +3648,7 @@ body {
   opacity: 1;
   position: absolute;
   top: 24px;
-  left: 207px;
+  left: 165px;
   overflow: hidden;
 }
 .v2_550 {
@@ -5529,8 +5522,8 @@ body {
   width: 168px;
   color: rgba(0,0,0,1);
   position: absolute;
-  top: 873px;
-  left: 1100px;
+  top: 850px;
+  left: 1150px;
   font-family: Aoboshi One;
   font-weight: Regular;
   font-size: 20px;
@@ -5541,8 +5534,8 @@ body {
   width: 168px;
   color: rgba(0,0,0,1);
   position: absolute;
-  top: 873px;
-  left: 850px;
+  top: 900px;
+  left: 860px;
   font-family: Aoboshi One;
   font-weight: Regular;
   font-size: 20px;
@@ -5553,7 +5546,7 @@ body {
   width: 168px;
   color: rgba(0,0,0,1);
   position: absolute;
-  top: 873px;
+  top: 915px;
   left: 500px;
   font-family: Aoboshi One;
   font-weight: Regular;
@@ -5564,7 +5557,7 @@ body {
 .v104_9 {
   width: 669px;
   height: 397px;
-  background: url("../images/v104_9.png");
+  background: url("https://i.ibb.co/D7pvWvD/2022-02-24-10-32-56-PM.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -5579,20 +5572,16 @@ body {
   overflow: hidden;
 }
 .v105_11 {
-  width: 489px;
-  height: 433px;
-  background: url("../images/v105_11.png");
+  width: 1100px;
+  height: 890px;
+  background: url("https://i.ibb.co/x8zhnyK/2022-02-25-1-00-17-AM.jpg");
   background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  /* background-position: center center; */
+  /* background-size: cover; */
   opacity: 1;
   position: absolute;
-  top: 2620px;
-  left: 98px;
-  border-top-left-radius: 230px;
-  border-top-right-radius: 230px;
-  border-bottom-left-radius: 230px;
-  border-bottom-right-radius: 230px;
+  top: 2720px;
+  left: 250px;
   overflow: hidden;
 }
 .v105_12 {
@@ -5600,12 +5589,10 @@ body {
   color: rgba(255,255,255,1);
   position: absolute;
   top: 2237px;
-  left: 907px;
-  font-family: Amiko;
-  font-weight: Regular;
-  font-size: 35px;
+  left: 899px;
+  font-size: 50px;
   opacity: 1;
-  text-align: left;
+  text-align: center;
 }
 .v110_19 {
   width: 574px;
