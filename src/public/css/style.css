@@ -15,28 +15,32 @@ body {
   top: 0px;
   left: 0px;
   overflow: hidden;
+
 }
 .v2_643 {
-  width: 214px;
-  height: 73px;
+  width: 500px;
+  height: 90px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   opacity: 1;
   position: absolute;
   top: 42px;
-  left: 200px;
+  left: 800px;
   overflow: hidden;
+  bottom:50px;
 }
 .v2_325 {
-  width: 214px;
-  color: rgba(0,0,0,1);
+  width: 500px;
+  bottom:50px;
+  color:rgba(0,154,23);
   position: relative;
   top: 0px;
   left: 15px;
+  bottom: 100px;
   font-family: Abhaya Libre;
   font-weight: Bold;
-  font-size: 48px;
+  font-size: 80px;
   opacity: 1;
   text-align: left;
 }
@@ -1716,19 +1720,19 @@ body {
   background-position: center center;
   background-size: cover;
   opacity: 1;
-  position: absolute;
-  top: 77px;
-  left: 0px;
+  position: relative;
+  top: 180px;
+  left: 250px;
   overflow: hidden;
 }
 .v2_512 {
   width: 537px;
   color: rgba(0,0,0,1);
   position: relative;
-  top: 70px;
-  left: 70px;
+  top: 90px;
+  left: 100px;
   font-family: Abel;
-  font-weight: Regular;
+  font-weight:bold;
   font-size: 40px;
   opacity: 1;
   text-align: left;
@@ -1737,13 +1741,15 @@ body {
   width: 507px;
   color: rgba(86,86,86,1);
   position: absolute;
-  top: 183px;
+  top: 220px;
   left: 90px;
   font-family: Abel;
-  font-weight: Regular;
+  font-weight: bolder;
   font-size: 20px;
   opacity: 1;
   text-align: left;
+
+
 }
 .v2_514 {
   width: 163px;
@@ -1808,7 +1814,7 @@ body {
   top: 480px;
   left: 240px;
   font-family: Aoboshi One;
-  font-weight: Regular;
+  font-weight: normal;
   font-size: 20px;
   opacity: 1;
   text-align: left;
@@ -1822,18 +1828,18 @@ body {
   opacity: 1;
   position: absolute;
   top: 848px;
-  left: 70px;
+  left: 250px;
   overflow: hidden;
 }
 .v2_516 {
-  width: 336px;
+  width: 400px;
   color: rgba(116,116,116,1);
   position: absolute;
-  top: 66px;
+  top: 80px;
   left: 0px;
   font-family: Abel;
-  font-weight: Regular;
-  font-size: 18px;
+  font-weight:bolder;
+  font-size: 22px;
   opacity: 1;
   text-align: left;
 }
@@ -1842,9 +1848,9 @@ body {
   color: rgba(0,0,0,1);
   position: relative;
   top: 0px;
-  left: 0px;
+  left: 25px;
   font-family: Abel;
-  font-weight: Regular;
+  font-weight:bold;
   font-size: 40px;
   opacity: 1;
   text-align: left;
@@ -1861,7 +1867,7 @@ body {
 }
 .v2_648 {
   width: 100%;
-  height: 691px;
+  height: 800px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -3518,12 +3524,36 @@ body {
 }
 .v2_324 {
   width: 404px;
-  height: 409px;
+  height: 500px;
   border-radius: 230px;
   opacity: 1;
   position: absolute;
   top: 30px;
   left: 580px;
+  float:left;
+  margin-right: 80px;
+}
+.boxorder1 {
+  width: 404px;
+  height: 500px;
+  border-radius: 230px;
+  opacity: 1;
+  position: absolute;
+  top: 30px;
+  left: 680px;
+  float:left;
+  margin-right: 20px;
+}
+.boxorder2 {
+  width: 404px;
+  height: 500px;
+  border-radius: 230px;
+  opacity: 1;
+  position: relative;
+  top: 30px;
+  left: 300px;
+  float:right;
+  margin-right: 50px;
 }
 
 
@@ -3541,7 +3571,7 @@ body {
 }
 .v2_543 {
   width: 396px;
-  height: 206px;
+  height: 300px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -3555,10 +3585,10 @@ body {
   width: 396px;
   color: rgba(86,86,86,1);
   position: absolute;
-  top: 128px;
+  top: 150px;
   left: 0px;
   font-family: Abel;
-  font-weight: Regular;
+  font-weight: bolder;
   font-size: 16px;
   opacity: 1;
   text-align: left;
@@ -3582,13 +3612,13 @@ body {
   top: 0px;
   left: 0px;
   font-family: Abel;
-  font-weight: Regular;
-  font-size: 40px;
+  font-weight: bold;
+  font-size: 45px;
   opacity: 1;
   text-align: left;
 }
 .v2_649 {
-  width: 538px;
+  width: 660px;
   height: 678px;
   background-repeat: no-repeat;
   background-position: center center;
@@ -3598,6 +3628,15 @@ body {
   top: 3388px;
   left: 594px;
   overflow: hidden;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: seagreen;
+  color: white;
+  text-align: center;
 }
 
 .v2_508 {
@@ -3624,8 +3663,8 @@ body {
 .v2_548 {
   color: rgba(86,86,86,1);
   position: absolute;
-  top: 162px;
-  left: 0px;
+  top: 182px;
+  left: 50px;
 }
 .v2_549 {
   width: 468px;
@@ -3646,7 +3685,7 @@ body {
   top: 0px;
   left: 0px;
   font-family: Abel;
-  font-weight: Regular;
+  font-weight: bold;
   font-size: 40px;
   opacity: 1;
   text-align: left;
@@ -4490,19 +4529,19 @@ body {
   background: rgba(255,244,218,1);
   opacity: 1;
   position: absolute;
-  top: 315px;
-  left: 837px;
+  top: 180px;
+  left: 1200px;
   border-radius: 50%;
 }
 .v2_517 {
   width: 588px;
   color: rgba(116,116,116,1);
   position: absolute;
-  top: 66px;
-  left: 319px;
+  top: 76px;
+  left: 620px;
   font-family: Abel;
-  font-weight: Regular;
-  font-size: 18px;
+  font-weight: bolder;
+  font-size: 28px;
   opacity: 1;
   text-align: center;
 }
@@ -4511,9 +4550,9 @@ body {
   color: rgba(0,0,0,1);
   position: absolute;
   top: 0px;
-  left: 497px;
+  left: 800px;
   font-family: Abel;
-  font-weight: Regular;
+  font-weight: bold;
   font-size: 40px;
   opacity: 1;
   text-align: center;
@@ -5447,17 +5486,18 @@ body {
   opacity: 1;
   position: absolute;
   top: 209px;
-  left: 178px;
+  left: 300px;
   border-bottom-right-radius: 100px;
   overflow: hidden;
 }
 .v2_615 {
   width: 60%;
   height: 292px;
-  background: rgba(244,249,255,1);
+  background: darkseagreen;
   opacity: 1;
   position: absolute;
   top: 56px;
+  left:400px;
   /* left: 18px; */
   border-top-left-radius: 75px;
   border-top-right-radius: 75px;
@@ -5466,23 +5506,25 @@ body {
   overflow: hidden;
 }
 .v2_616 {
-  width: 410px;
+  width: 360px;
   height: 292px;
-  background: rgba(37,57,236,1);
+  background:darkolivegreen;
   opacity: 1;
   position: absolute;
   top: 56px;
-  left: 692px;
+  left: 1100px;
+  border-top-right-radius: 75px;
+  border-bottom-right-radius: 75px;
 }
 .v2_622 {
   width: 588px;
   color: rgba(116,116,116,1);
   position: absolute;
-  top: 220px;
-  left: 30px;
+  top: 240px;
+  left: 550px;
   font-family: Abel;
-  font-weight: Regular;
-  font-size: 18px;
+  font-weight: bolder;
+  font-size: 28px;
   opacity: 1;
   text-align: left;
 }
@@ -5491,10 +5533,10 @@ body {
   color: rgba(0,0,0,1);
   position: absolute;
   top: 154px;
-  left: 20px;
+  left: 650px;
   font-family: Abel;
-  font-weight: Regular;
-  font-size: 40px;
+  font-weight: bold;
+  font-size: 48px;
   opacity: 1;
   text-align: left;
 }
@@ -5503,7 +5545,7 @@ body {
   color: rgba(0,0,0,1);
   position: absolute;
   top: 830px;
-  left: 940px;
+  left: 1150px;
   font-family: Aoboshi One;
   font-weight: Regular;
   font-size: 20px;
@@ -5515,9 +5557,9 @@ body {
   color: rgba(0,0,0,1);
   position: absolute;
   top: 900px;
-  left: 720px;
+  left: 1500px;
   font-family: Aoboshi One;
-  font-weight: Regular;
+  font-weight: normal;
   font-size: 20px;
   opacity: 1;
   text-align: left;
@@ -5527,7 +5569,7 @@ body {
   color: rgba(0,0,0,1);
   position: absolute;
   top: 915px;
-  left: 440px;
+  left: 800px;
   font-family: Aoboshi One;
   font-weight: Regular;
   font-size: 20px;
@@ -5535,33 +5577,35 @@ body {
   text-align: left;
 }
 .v104_9 {
-  width: 500px;
-  height: 297px;
+  width: 600px;
+  height: 400px;
   background: url("https://i.ibb.co/D7pvWvD/2022-02-24-10-32-56-PM.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   opacity: 1;
   position: absolute;
-  top: 163px;
-  left: 665px;
+  top: 275px;
+  left: 1100px;
   border-top-left-radius: 198px;
   border-top-right-radius: 198px;
   border-bottom-left-radius: 198px;
   border-bottom-right-radius: 198px;
   overflow: hidden;
+  border-color: darkgreen;
+  border-width: thick;
 }
 .v105_11 {
-  width: 700px;
-  height: 890px;
+  width: 800px;
+  height: 600px;
   background: url("https://i.ibb.co/x8zhnyK/2022-02-25-1-00-17-AM.jpg");
   background-repeat: no-repeat;
   /* background-position: center center; */
   /* background-size: cover; */
   opacity: 1;
   position: absolute;
-  top: 2720px;
-  left: 200px;
+  top: 2820px;
+  left: 600px;
   overflow: hidden;
 }
 .v105_12 {
@@ -5569,7 +5613,7 @@ body {
   color: rgba(255,255,255,1);
   position: absolute;
   top: 2237px;
-  left: 750px;
+  left: 1200px;
   font-size: 50px;
   opacity: 1;
   text-align: center;
