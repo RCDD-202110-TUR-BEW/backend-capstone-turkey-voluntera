@@ -3,6 +3,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
+const initializeCronTasks = require('./utils/cron');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
@@ -10,6 +11,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const logger = require('./utils/logger');
 const swaggerDocument = require('./api-documentation.json');
 
+initializeCronTasks();
 const app = express();
 
 app.use(express.json());
