@@ -1,18 +1,18 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-const Project = require('./models/project');
-const initializeCronTasks = require('./utils/cron');
-
-const today = new Date();
-
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const initializeCronTasks = require('./utils/cron');
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
+const errorHandler = require('./middlewares/errorHandler');
+const logger = require('./utils/logger');
+const swaggerDocument = require('./api-documentation.json');
 
 const app = express();
-
+initializeCronTasks();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -28,19 +28,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRouter);
+app.use(errorHandler);
 
-const upcomingProjects = async () => {
-  const projects = await Project.find();
-  const titles = [];
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < projects.length; i++) {
-    if (projects[i].date.toString() > today.toString()) {
-      titles.push(projects[i].title);
-    }
-  }
-  initializeCronTasks('Upcoming Projects', 'example@gmail.com', titles.join());
-};
-upcomingProjects();
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port =
   process.env.NODE_ENV === 'development'
@@ -56,6 +46,6 @@ if (process.env.NODE_ENV !== 'test') {
   db.getConnection();
 
   app.listen(port, () => {
-    console.log(`Server is listening on port: ${port}`);
+    logger.info(`Server is listening on port: ${port}`);
   });
 }
