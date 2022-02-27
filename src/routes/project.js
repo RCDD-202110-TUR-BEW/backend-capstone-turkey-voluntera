@@ -10,6 +10,6 @@ router.get('/filter', projectController.filterProjects);
 router.get('/:id', projectController.getOneProject);
 router.put('/:id', projectController.updateProject);
 router.delete('/:id', projectController.removeProject);
-router.post('/app/:id', projectController.addApp);
+router.post('/app/:id', projectController.addApplication);
 
 module.exports = router;
