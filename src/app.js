@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const Database = require('./db');
 const authRouter = require('./routes/auth');
+const errorHandler = require('./middlewares/errorHandler');
 const logger = require('./utils/logger');
 const swaggerDocument = require('./api-documentation.json');
 const projectRoutes = require('./routes/project');
@@ -34,6 +35,8 @@ app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/profiles', profileRoutes);
 app.use('/auth', authRouter);
+app.use(errorHandler);
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port =
