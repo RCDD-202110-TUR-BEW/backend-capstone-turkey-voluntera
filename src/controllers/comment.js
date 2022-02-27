@@ -16,7 +16,8 @@ exports.addComment = async (req, res, next) => {
 };
 
 exports.getOneComment = async (req, res, next) => {
-  const { postid, commentid } = req.params;
+  const { commentid } = req.params;
+  const { postid } = req.query;
 
   try {
     const post = await Post.findById(postid);
@@ -34,7 +35,8 @@ exports.getOneComment = async (req, res, next) => {
 };
 
 exports.removeComment = async (req, res, next) => {
-  const { postid, commentid } = req.params;
+  const { commentid } = req.params;
+  const { postid } = req.query;
 
   try {
     const post = await Post.findById(postid);
