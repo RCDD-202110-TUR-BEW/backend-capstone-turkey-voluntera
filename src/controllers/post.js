@@ -1,16 +1,15 @@
 const Post = require('../models/post');
 
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-exports.getAllPosts = async (_, res) => {
+exports.getAllPosts = async (_, res, next) => {
   try {
     const posts = await Post.find();
     res.json(posts);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.getOnePost = async (req, res) => {
+exports.getOnePost = async (req, res, next) => {
   const { id } = req.params;
   try {
     const post = await Post.findById(id);
@@ -22,21 +21,21 @@ exports.getOnePost = async (req, res) => {
       res.json(post);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.addPost = async (req, res) => {
+exports.addPost = async (req, res, next) => {
   const postData = req.body;
   try {
     const newPost = await Post.create(postData);
     res.status(201).json(newPost);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.filterPosts = async (req, res) => {
+exports.filterPosts = async (req, res, next) => {
   const { sender, title } = req.query;
   if (!sender && !title) {
     res
@@ -54,23 +53,17 @@ exports.filterPosts = async (req, res) => {
         res.json(posts);
       }
     } catch (err) {
-      res.status(422).json({ message: err.message });
+      next(err);
     }
   }
 };
 
-exports.updatePost = async (req, res) => {
+exports.updatePost = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const updatedPost = await Post.findByIdAndUpdate(
-      id,
-      {
-        $set: req.body,
-      },
-      {
-        new: true,
-      }
-    );
+    const updatedPost = await Post.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     if (!updatedPost) {
       res
         .status(422)
@@ -79,40 +72,44 @@ exports.updatePost = async (req, res) => {
       res.json(updatedPost);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.removePost = (req, res) => {
-  Post.deleteOne({ _id: req.params.id }, (err) => {
-    if (err) {
-      res.status(422);
-      return res.json({ err: 'Not deleted' });
+exports.removePost = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletedPost = await Post.findByIdAndDelete(id);
+    if (deletedPost) {
+      res.json({ message: 'Successfuly deleted the post' });
+    } else {
+      res.json(400).json({ message: 'No documents found with given id' });
     }
-    return res.status(204).send();
-  });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.updateLikes = async (req, res) => {
+exports.updateLikes = async (req, res, next) => {
   const { id } = req.params;
   const { userId } = req.body;
 
   if (!userId) {
-    return res.status(400).json('Could not found user in request body');
-  }
-
-  try {
-    const post = await Post.findById(id);
-    post.likes.push(userId);
-    await post.save();
-
-    if (!post) {
-      return res
-        .status(422)
-        .json({ message: "The post you are looking for wasn't found" });
+    res.status(400).json('Could not found user in request body');
+  } else {
+    try {
+      const post = await Post.findById(id);
+      if (!post) {
+        res
+          .status(422)
+          .json({ message: "The post you are looking for wasn't found" });
+      } else {
+        res.json({ likes: post.likes });
+        post.likes.push(userId);
+        await post.save();
+      }
+    } catch (err) {
+      next(err);
     }
-    return res.json({ likes: post.likes });
-  } catch (err) {
-    return res.status(422).json({ message: err.message });
   }
 };

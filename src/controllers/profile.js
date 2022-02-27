@@ -1,6 +1,6 @@
-const { User, Volunteer, Organization } = require('../models/user');
+const { User } = require('../models/user');
 
-exports.getOneProfile = async (req, res) => {
+exports.getOneProfile = async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await User.findById(id);
@@ -12,11 +12,11 @@ exports.getOneProfile = async (req, res) => {
       res.json(user);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.filterProfiles = async (req, res) => {
+exports.filterProfiles = async (req, res, next) => {
   const { username, email } = req.query;
   if (!username && !email) {
     res
@@ -28,29 +28,19 @@ exports.filterProfiles = async (req, res) => {
     if (email) query.email = email;
     try {
       const users = await User.find(query);
-      if (users.length === 0) {
-        res.status(422).json({ message: 'No users by these parameters' });
-      } else {
-        res.json(users);
-      }
+      res.json(users);
     } catch (err) {
-      res.status(422).json({ message: err.message });
+      next(err);
     }
   }
 };
 
-exports.updateProfile = async (req, res) => {
+exports.updateProfile = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        $set: req.body,
-      },
-      {
-        new: true,
-      }
-    );
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     if (!updatedUser) {
       res
         .status(422)
@@ -59,16 +49,20 @@ exports.updateProfile = async (req, res) => {
       res.json(updatedUser);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.deleteProfile = (req, res) => {
-  User.deleteOne({ _id: req.params.id }, (err) => {
-    if (err) {
-      res.status(422);
-      return res.json({ err: 'Not deleted' });
+exports.deleteProfile = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (user) {
+      res.json({ message: 'Successfully deleted' });
+    } else {
+      res.status(422).json({ message: 'Could not find user' });
     }
-    return res.status(204).send();
-  });
+  } catch (err) {
+    next(err);
+  }
 };

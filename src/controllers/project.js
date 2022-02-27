@@ -1,15 +1,15 @@
 const Project = require('../models/project');
 
-exports.getAllProjects = async (_, res) => {
+exports.getAllProjects = async (_, res, next) => {
   try {
     const projects = await Project.find();
     res.json(projects);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.getOneProject = async (req, res) => {
+exports.getOneProject = async (req, res, next) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id);
@@ -21,23 +21,21 @@ exports.getOneProject = async (req, res) => {
       res.json(project);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.addProject = async (req, res) => {
+exports.addProject = async (req, res, next) => {
   const projectData = req.body;
   try {
     const newProject = await Project.create(projectData);
     res.status(201).json(newProject);
-    return projectData;
   } catch (err) {
-    res.status(422).json({ message: err.message });
-    return err.message;
+    next(err);
   }
 };
 
-exports.filterProjects = async (req, res) => {
+exports.filterProjects = async (req, res, next) => {
   const { creator, address } = req.query;
   if (!creator && !address) {
     res
@@ -49,14 +47,18 @@ exports.filterProjects = async (req, res) => {
     if (address) query.address = address;
     try {
       const projects = await Project.find(query);
-      res.json(projects);
+      if (projects.length) {
+        res.json({ message: 'No matching documents found' });
+      } else {
+        res.json(projects);
+      }
     } catch (err) {
-      res.status(422).json({ message: err.message });
+      next(err);
     }
   }
 };
 
-exports.updateProject = async (req, res) => {
+exports.updateProject = async (req, res, next) => {
   const { id } = req.params;
   try {
     const updatedProject = await Project.findByIdAndUpdate(id, req.body, {
@@ -70,23 +72,36 @@ exports.updateProject = async (req, res) => {
       res.json(updatedProject);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.removeProject = (req, res) => {
-  Project.deleteOne({ _id: req.params.id }, (err) => {
-    if (err) {
-      res.status(422);
-      return res.json({ err: 'Not deleted' });
+exports.removeProject = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findByIdAndDelete(id);
+    if (project) {
+      res.json({ message: 'Successfully deleted' });
+    } else {
+      res.status(422).json({ message: 'Could not find project' });
     }
-    return res.status(204).send();
-  });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.addApp = async (req, res) => {
-  const project = await Project.findOne({ _id: req.params.id });
-  project.applications.push(req.body);
-  await project.save();
-  res.json({ updatedProject: project });
+exports.addApplication = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const project = await Project.findById(id);
+    if (project) {
+      project.applications.push(req.body);
+      await project.save();
+      res.json({ updatedProject: project });
+    } else {
+      res.json({ message: 'Could not find project' });
+    }
+  } catch (err) {
+    next(err);
+  }
 };

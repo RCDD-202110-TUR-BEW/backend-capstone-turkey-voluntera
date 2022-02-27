@@ -1,23 +1,26 @@
 const Post = require('../models/post');
 
-exports.addComment = async (req, res) => {
+exports.addComment = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
-    post.comments.push(req.body);
-    await post.save();
-    return res.json(post);
+    if (post) {
+      post.comments.push(req.body);
+      await post.save();
+      res.json(post);
+    } else {
+      res.status(422).json({ message: 'Unable the find post' });
+    }
   } catch (err) {
-    return res.json(err);
+    next(err);
   }
 };
 
-exports.getOneComment = async (req, res) => {
-  const { postid } = req.params;
-  const { commentid } = req.query;
+exports.getOneComment = async (req, res, next) => {
+  const { postid, commentid } = req.params;
 
   try {
     const post = await Post.findById(postid);
-    const comment = await post.comments.id(commentid);
+    const comment = await post?.comments?.id(commentid);
     if (!comment) {
       res
         .status(422)
@@ -26,17 +29,16 @@ exports.getOneComment = async (req, res) => {
       res.json(comment);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
 
-exports.removeComment = async (req, res) => {
-  const { postid } = req.params;
-  const { commentid } = req.query;
+exports.removeComment = async (req, res, next) => {
+  const { postid, commentid } = req.params;
 
   try {
     const post = await Post.findById(postid);
-    const comment = await post.comments.id(commentid);
+    const comment = await post?.comments?.id(commentid);
     if (!comment) {
       res
         .status(422)
@@ -47,6 +49,6 @@ exports.removeComment = async (req, res) => {
       res.json(post);
     }
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    next(err);
   }
 };
