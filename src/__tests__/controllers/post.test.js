@@ -42,7 +42,7 @@ describe('connecting,clearing and preloading the database', () => {
     });
   });
 
-  describe('POST /api/posts/app/:id', () => {
+  describe('POST /api/posts/:id/likes', () => {
     test('Should add a like to the post', async () => {
       const volunteer = await Volunteer.create(exampleData.volunteer);
       const post = await Post.create({
@@ -51,7 +51,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/posts/like/${post._id}`)
+        .post(`/api/posts/${post._id}/likes/`)
         .set('Content-Type', 'application/json')
         .send({ userId: `${volunteer._id}` });
 

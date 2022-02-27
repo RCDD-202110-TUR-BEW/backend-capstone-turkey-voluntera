@@ -42,7 +42,7 @@ describe('profile controller', () => {
       const user = await Volunteer.create(exampleData.volunteer);
 
       const response = await request(app)
-        .get(`/api/profiles/search/${user._id.toString()}`)
+        .get(`/api/profiles/${user._id.toString()}`)
         .set('Content-Type', 'application/json');
 
       expect(response.statusCode).toBe(200);
