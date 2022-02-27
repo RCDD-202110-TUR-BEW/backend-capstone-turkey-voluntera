@@ -7,7 +7,6 @@ const exampleData = require('./exampleData.json');
 
 const db = new Database(process.env.DB_TEST_URL);
 
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 describe('connecting,clearing and preloading the database', () => {
   beforeAll(async () => {
     await db.getConnection();
@@ -23,7 +22,7 @@ describe('connecting,clearing and preloading the database', () => {
     db.closeConnection();
   });
 
-  describe('GET /api/project/filter', () => {
+  describe('GET /api/projects/filter', () => {
     test('Should filter projects by location or creator', async () => {
       const organization = await Organization.create(exampleData.organization);
       const project = await Project.create({
@@ -32,7 +31,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .get('/api/project/filter')
+        .get('/api/projects/filter')
         .set('Content-Type', 'application/json')
         .query({ address: `${project.address}` });
 
@@ -42,7 +41,7 @@ describe('connecting,clearing and preloading the database', () => {
     });
   });
 
-  describe('GET /api/project/app/:id', () => {
+  describe('GET /api/projects/app/:id', () => {
     test('Should add an applicant to a project', async () => {
       const volunteer = await Volunteer.create(exampleData.volunteer);
       const organization = await Organization.create(exampleData.organization);
@@ -52,7 +51,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/project/app/${project._id}`)
+        .post(`/api/projects/app/${project._id}`)
         .set('Content-Type', 'application/json')
         .send({ applicant: volunteer._id, ...exampleData.application });
 

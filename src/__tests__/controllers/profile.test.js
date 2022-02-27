@@ -22,12 +22,12 @@ describe('profile controller', () => {
     db.closeConnection();
   });
 
-  describe('GET /api/profile/filter', () => {
+  describe('GET /api/profiles/filter', () => {
     test('Should filter profiles by username or email', async () => {
       const user = await Volunteer.create(exampleData.volunteer);
 
       const response = await request(app)
-        .get('/api/profile/filter')
+        .get('/api/profiles/filter')
         .set('Content-Type', 'application/json')
         .query({ email: user.email });
 
@@ -37,12 +37,12 @@ describe('profile controller', () => {
     });
   });
 
-  describe('GET /api/profile/:id', () => {
+  describe('GET /api/profiles/:id', () => {
     test('Should return the element with given id', async () => {
       const user = await Volunteer.create(exampleData.volunteer);
 
       const response = await request(app)
-        .get(`/api/profile/search/${user._id.toString()}`)
+        .get(`/api/profiles/search/${user._id.toString()}`)
         .set('Content-Type', 'application/json');
 
       expect(response.statusCode).toBe(200);

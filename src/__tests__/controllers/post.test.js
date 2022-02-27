@@ -23,7 +23,7 @@ describe('connecting,clearing and preloading the database', () => {
     db.closeConnection();
   });
 
-  describe('GET /api/post/filter', () => {
+  describe('GET /api/posts/filter', () => {
     test('Should filter posts by sender or title', async () => {
       const volunteer = await Volunteer.create(exampleData.volunteer);
       const post = await Post.create({
@@ -32,7 +32,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .get('/api/post/filter')
+        .get('/api/posts/filter')
         .set('Content-Type', 'application/json')
         .query({ sender: post.sender.toString() });
 
@@ -42,7 +42,7 @@ describe('connecting,clearing and preloading the database', () => {
     });
   });
 
-  describe('POST /api/post/app/:id', () => {
+  describe('POST /api/posts/app/:id', () => {
     test('Should add a like to the post', async () => {
       const volunteer = await Volunteer.create(exampleData.volunteer);
       const post = await Post.create({
@@ -51,7 +51,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/post/like/${post._id}`)
+        .post(`/api/posts/like/${post._id}`)
         .set('Content-Type', 'application/json')
         .send({ userId: `${volunteer._id}` });
 

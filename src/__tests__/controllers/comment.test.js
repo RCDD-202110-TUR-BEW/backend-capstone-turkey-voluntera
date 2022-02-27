@@ -7,7 +7,6 @@ const exampleData = require('./exampleData.json');
 
 const db = new Database(process.env.DB_TEST_URL);
 
-/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 describe('connecting,clearing and preloading the database', () => {
   beforeAll(async () => {
     await db.getConnection();
@@ -23,7 +22,7 @@ describe('connecting,clearing and preloading the database', () => {
     await db.closeConnection();
   });
 
-  describe('POST /api/comment/:id', () => {
+  describe('POST /api/comments/:id', () => {
     test('Should add a comment', async () => {
       const volunteer = await Volunteer.create(exampleData.volunteer);
       const post = await Post.create({
@@ -32,7 +31,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/comment/${post._id}`)
+        .post(`/api/comments/${post._id}`)
         .set('Content-Type', 'application/json')
         .send({ sender: volunteer._id, ...exampleData.comment });
 
