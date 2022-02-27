@@ -51,7 +51,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/projects/app/${project._id}`)
+        .post(`/api/projects/${project._id}/applications/`)
         .set('Content-Type', 'application/json')
         .send({ applicant: volunteer._id, ...exampleData.application });
 
