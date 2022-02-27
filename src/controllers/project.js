@@ -47,7 +47,7 @@ exports.filterProjects = async (req, res, next) => {
     if (address) query.address = address;
     try {
       const projects = await Project.find(query);
-      if (projects.length) {
+      if (!projects.length) {
         res.json({ message: 'No matching documents found' });
       } else {
         res.json(projects);
