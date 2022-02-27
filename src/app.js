@@ -29,10 +29,10 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api/project', projectRoutes);
-app.use('/api/post', postRoutes);
-app.use('/api/comment', commentRoutes);
-app.use('/api/profile', profileRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/comments', commentRoutes);
+app.use('/api/profiles', profileRoutes);
 app.use('/auth', authRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
