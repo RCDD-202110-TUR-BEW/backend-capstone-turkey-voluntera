@@ -5,5 +5,5 @@ const router = express.Router();
 const profileController = require('../controllers/profile');
 
 router.get('/filter', profileController.filterProfiles);
-router.get('/search/:id', profileController.getOneProfile);
+router.get('/:id', profileController.getOneProfile);
 module.exports = router;

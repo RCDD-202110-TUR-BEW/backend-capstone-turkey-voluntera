@@ -5,10 +5,10 @@ const router = express.Router();
 const postController = require('../controllers/post');
 
 router.get('/', postController.getAllPosts);
-router.post('/add', postController.addPost);
+router.post('/', postController.addPost);
 router.get('/filter', postController.filterPosts);
 router.get('/:id', postController.getOnePost);
 router.put('/:id', postController.updatePost);
 router.delete('/:id', postController.removePost);
-router.post('/like/:id', postController.updateLikes);
+router.post('/:id/likes', postController.updateLikes);
 module.exports = router;
