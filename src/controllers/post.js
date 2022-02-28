@@ -47,11 +47,7 @@ exports.filterPosts = async (req, res, next) => {
     if (title) query.title = title;
     try {
       const posts = await Post.find(query);
-      if (posts.length === 0) {
-        res.status(422).json({ message: 'No posts by these parameters' });
-      } else {
-        res.json(posts);
-      }
+      res.json(posts);
     } catch (err) {
       next(err);
     }
@@ -83,7 +79,7 @@ exports.removePost = async (req, res, next) => {
     if (deletedPost) {
       res.json({ message: 'Successfuly deleted the post' });
     } else {
-      res.json(400).json({ message: 'No documents found with given id' });
+      res.json(422).json({ message: 'Could not find post' });
     }
   } catch (err) {
     next(err);
@@ -104,9 +100,9 @@ exports.updateLikes = async (req, res, next) => {
           .status(422)
           .json({ message: "The post you are looking for wasn't found" });
       } else {
-        res.json({ likes: post.likes });
         post.likes.push(userId);
         await post.save();
+        res.json({ likes: post.likes });
       }
     } catch (err) {
       next(err);
