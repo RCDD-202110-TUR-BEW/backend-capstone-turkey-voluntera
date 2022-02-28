@@ -14,23 +14,19 @@ const today = new Date();
 async function initializeCronTasks() {
   cron.schedule(
     '0 9 * * *',
-    () => {
-      const upcomingProjects = async () => {
-        const projects = await Project.find();
-        const titles = [];
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < projects.length; i++) {
-          if (projects[i].date.toString() > today.toString()) {
-            titles.push(projects[i].title);
-          }
-        }
-        sendEmail(
-          'm.cankisi@gmail.com',
-          'Upcoming Voluntera Projects',
-          titles.join()
-        );
-      };
-      upcomingProjects();
+    async () => {
+      const date = new Date();
+      date.setDate(date.getDate() - 1);
+      const projectTitles = await Project.find({
+        createdAt: { $gte: date },
+      }).select({ titles: 1 });
+      const htmlTemplate = `<p>${projectTitles.join('\n')}</p>`;
+      // eslint-disable-next-line no-plusplus
+      sendEmail(
+        'nodemailervoluntera@gmail.com',
+        'Upcoming Voluntera Projects',
+        htmlTemplate
+      );
     },
     {
       scheduled: true,
