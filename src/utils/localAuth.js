@@ -7,7 +7,7 @@ const logger = require('./logger');
 passport.use(
   new LocalStrategy(async (username, password, callback) => {
     try {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ username }).select('+password');
       if (!user) {
         return callback(null, false, {
           message: 'Incorrect username or password',
