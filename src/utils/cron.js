@@ -1,7 +1,13 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-useless-path-segments */
+/* eslint-disable node/no-missing-require */
+/* eslint-disable import/no-unresolved */
+
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const sendEmail = require('./mailer');
-const logger = require('./logger');
+const sendEmail = require('../utils/mailer');
+const logger = require('../utils/logger');
+const Project = require('../models/project');
 
 const today = new Date();
 
