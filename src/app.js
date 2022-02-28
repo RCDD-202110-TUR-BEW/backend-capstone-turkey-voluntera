@@ -13,6 +13,7 @@ const projectRoutes = require('./routes/project');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
 const profileRoutes = require('./routes/profile');
+const myprofileRoutes = require('./routes/myprofile');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/profiles', profileRoutes);
+app.use('/api/myprofile', myprofileRoutes);
 app.use('/auth', authRouter);
 app.use(errorHandler);
 
