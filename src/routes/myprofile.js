@@ -6,5 +6,5 @@ const router = express.Router();
 const profileController = require('../controllers/profile');
 
 router.put('/:id', checkAuthentication, profileController.updateProfile);
-router.delete('/:id', checkAuthentication, profileController.removePost);
+router.delete('/:id', checkAuthentication, profileController.deleteProfile);
 module.exports = router;
