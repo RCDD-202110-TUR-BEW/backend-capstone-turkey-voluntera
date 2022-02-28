@@ -1,9 +1,16 @@
 const request = require('supertest');
+const sinon = require('sinon');
 const Database = require('../../db');
-const app = require('../../app');
 const Post = require('../../models/post');
 const { Volunteer } = require('../../models/user');
 const exampleData = require('./exampleData.json');
+const checkAuth = require('../../middlewares/checkAuth');
+
+sinon.stub(checkAuth, 'checkAuthentication').callsFake((req, res, next) => {
+  next();
+});
+
+const app = require('../../app');
 
 const db = new Database(process.env.DB_TEST_URL);
 
