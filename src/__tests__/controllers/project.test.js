@@ -48,7 +48,7 @@ describe('connecting,clearing and preloading the database', () => {
     });
   });
 
-  describe('GET /api/projects/app/:id', () => {
+  describe('GET /api/projects/:id/applications', () => {
     test('Should add an applicant to a project', async () => {
       const volunteer = await Volunteer.create(exampleData.volunteer);
       const organization = await Organization.create(exampleData.organization);
@@ -58,7 +58,7 @@ describe('connecting,clearing and preloading the database', () => {
       });
 
       const response = await request(app)
-        .post(`/api/projects/${project._id}/applications/`)
+        .post(`/api/projects/${project._id}/applications`)
         .set('Content-Type', 'application/json')
         .send({ applicant: volunteer._id, ...exampleData.application });
 
