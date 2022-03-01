@@ -12,7 +12,13 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
     "validate-staged": "lint-staged",
-    "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
+    "postinstall": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn validate-staged",
+      "pre-push": "yarn test"
+    }
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
