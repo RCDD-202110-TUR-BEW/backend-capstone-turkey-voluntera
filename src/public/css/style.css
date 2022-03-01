@@ -51,6 +51,10 @@ nav ul li a{
   margin-bottom: 25px;
 }
 
+.buttons{
+  margin-top:20px;
+}
+
 .developer{
   height: 400px;
 }
@@ -101,8 +105,8 @@ nav ul li a{
 }
 
 /* Design Section */
-.design-section{
-  margin:0 30px;
+.section{
+  margin:40px 30px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -113,6 +117,16 @@ nav ul li a{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: stretch;
+    column-gap: 20px;
+}
+
+.logos-designs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     align-content: stretch;
