@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400&family=Smooch+Sans&display=swap');
+
+body {
+  background-color: #f6f5f5;
+  margin: 0px;
+  padding: 0px;
+  font-family: 'League Spartan';
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* NavBar */
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2659ad;
+  font-size: 1.1em;
+  padding: 0px 5%;
+}
+
+nav ul {
+  display: flex;
+  margin-top: 10px;
+}
+
+nav ul li a {
+  color: #ffffff;
+  margin: 30px;
+  padding-top: 10px;
+}
+
+.logo {
+  font-size: 25px;
+  color: #ffffff;
+}
+
+/* Hero Section */
+
+.main-section {
+  margin: 0 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 600px;
+  margin-bottom: 25px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.developer {
+  height: 400px;
+}
+
+.greeting {
+  font-weight: bold;
+  color: #6d6d6d6d;
+  font-size: 22px;
+}
+
+.my-name {
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #403e3e;
+  font-size: 60px;
+}
+
+h3 {
+  color: #403e3e;
+}
+
+iframe {
+  border: none;
+}
+
+.profession {
+  color: #403e3e;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.text-container p {
+  margin: 40px 0px;
+  line-height: 0px;
+}
+
+.text-container button {
+  width: 130px;
+  height: 42px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0px 10px;
+}
+
+.hire-btn {
+  border: 2px solid #373636;
+  color: #373636;
+  background-color: transparent;
+}
+
+.down-cv {
+  background-color: #2659ad;
+  color: #f6f5f5;
+  border: none;
+}
+
+/* Design Section */
+.section {
+  margin: 40px 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.figma-designs {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: stretch;
+  column-gap: 40px;
+}
+
+.logos-designs {
+  margin: 60px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: stretch;
+  column-gap: 40px;
+}
+
+.tech-stack {
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: stretch;
+  column-gap: 20px;
+  color: #ffffff;
+}
+
+/* footer */
+
+footer {
+  background-color: #2659ad;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.footer-voluntera {
+  font-size: 30px;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 20px;
+}
+
+.footer-description {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  width: 50%;
+  height: 100%;
+  text-align: center;
+}
+
+.social-icons a {
+  width: 30px;
+  height: 30px;
+  margin: 20px 10px;
+}
+
+.social-icons {
+  display: flex;
+}
+
+.linked-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.profile-pic {
+  border-radius: 50%;
+}
+
+.linkedin {
+  display: flex;
+  justify-content: center;
+}
+
+.linkedin img {
+  margin-right: 10px;
+}

@@ -1,9 +1,12 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const ejs = require('ejs');
 const swaggerUi = require('swagger-ui-express');
+const path = require('path');
 require('dotenv').config();
 
+const initializeCronTasks = require('./utils/cron');
 const Database = require('./db');
 const authRouter = require('./routes/auth');
 const errorHandler = require('./middlewares/errorHandler');
@@ -16,7 +19,8 @@ const profileRoutes = require('./routes/profile');
 const myprofileRoutes = require('./routes/myprofile');
 
 const app = express();
-
+app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -37,14 +41,18 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/profiles', profileRoutes);
 app.use('/api/myprofile', myprofileRoutes);
 app.use('/auth', authRouter);
+app.set('views', path.join(__dirname, 'views'));
+app.engine('html', ejs.renderFile);
 app.use(errorHandler);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.get('/', (req, res) => {
+  res.render('main');
+});
 const port =
   process.env.NODE_ENV === 'development'
     ? process.env.DEVELOPMENT_PORT
-    : process.env.PRODUCTION_PORT;
+    : process.env.PORT;
 const dbUrl =
   process.env.NODE_ENV === 'development'
     ? process.env.DB_DEV_URL
@@ -57,6 +65,8 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     logger.info(`Server is listening on port: ${port}`);
   });
+
+  initializeCronTasks();
 }
 
 module.exports = app;
