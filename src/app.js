@@ -18,7 +18,6 @@ const commentRoutes = require('./routes/comment');
 const profileRoutes = require('./routes/profile');
 const myprofileRoutes = require('./routes/myprofile');
 
-initializeCronTasks();
 const app = express();
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -66,6 +65,8 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     logger.info(`Server is listening on port: ${port}`);
   });
+
+  initializeCronTasks();
 }
 
 module.exports = app;
