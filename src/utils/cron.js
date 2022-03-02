@@ -1,15 +1,9 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-useless-path-segments */
-/* eslint-disable node/no-missing-require */
-/* eslint-disable import/no-unresolved */
-
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const sendEmail = require('../utils/mailer');
-const logger = require('../utils/logger');
+const sendEmail = require('./mailer');
+const logger = require('./logger');
 const Project = require('../models/project');
-
-const today = new Date();
+const { Volunteer } = require('../models/user');
 
 async function initializeCronTasks() {
   cron.schedule(
@@ -17,16 +11,18 @@ async function initializeCronTasks() {
     async () => {
       const date = new Date();
       date.setDate(date.getDate() - 1);
+
       const projectTitles = await Project.find({
         createdAt: { $gte: date },
       }).select({ titles: 1 });
-      const htmlTemplate = `<p>${projectTitles.join('\n')}</p>`;
-      // eslint-disable-next-line no-plusplus
-      sendEmail(
-        'nodemailervoluntera@gmail.com',
-        'Upcoming Voluntera Projects',
-        htmlTemplate
-      );
+      const titlesArr = projectTitles.map((el) => el.title);
+
+      const userEmails = await Volunteer.find().select({ email: 1 });
+      const emailsArr = userEmails.map((el) => el.email);
+
+      const htmlTemplate = `<p>${titlesArr.join('\n')}</p>`;
+
+      await sendEmail(emailsArr, 'Upcoming Voluntera Projects', htmlTemplate);
     },
     {
       scheduled: true,
