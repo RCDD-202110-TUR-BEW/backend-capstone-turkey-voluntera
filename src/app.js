@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const ejs = require('ejs');
 const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
@@ -40,6 +41,7 @@ app.use('/api/profiles', profileRoutes);
 app.use('/api/myprofile', myprofileRoutes);
 app.use('/auth', authRouter);
 app.set('views', path.join(__dirname, 'views'));
+app.engine('html', ejs.renderFile);
 app.use(errorHandler);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
