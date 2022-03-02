@@ -3,9 +3,10 @@ const session = require('express-session');
 const passport = require('passport');
 const ejs = require('ejs');
 const swaggerUi = require('swagger-ui-express');
+const path = require('path');
 require('dotenv').config();
 
-const path = require('path');
+const initializeCronTasks = require('./utils/cron');
 const Database = require('./db');
 const authRouter = require('./routes/auth');
 const errorHandler = require('./middlewares/errorHandler');
@@ -64,6 +65,8 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     logger.info(`Server is listening on port: ${port}`);
   });
+
+  initializeCronTasks();
 }
 
 module.exports = app;
