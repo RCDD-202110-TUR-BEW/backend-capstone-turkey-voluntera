@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=development nodemon src/app.js",
-    "test": "NODE_ENV=test yarn validate && jest --passWithNoTests --runInBand",
+    "start-app": "NODE_ENV=production nodemon src/app.js",
+    "build": "yarn install",
+    "test": "yarn validate && jest --passWithNoTests",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
@@ -19,6 +21,9 @@
       "pre-commit": "yarn validate-staged",
       "pre-push": "yarn test"
     }
+  },
+  "engines": {
+    "node": "17.5.0"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
