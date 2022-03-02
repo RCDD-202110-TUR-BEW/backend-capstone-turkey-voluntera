@@ -9,7 +9,7 @@
     "start": "NODE_ENV=development nodemon src/app.js",
     "start-app": "NODE_ENV=production nodemon src/app.js",
     "build": "yarn install",
-    "test": "yarn validate && jest --passWithNoTests",
+    "test": "yarn validate && jest --passWithNoTests --runInBand",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
@@ -61,8 +61,5 @@
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "supertest": "^6.2.2"
-  },
-  "engines": {
-    "node": ">=10.0.0"
   }
 }
