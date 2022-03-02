@@ -32,7 +32,7 @@ exports.organizationSignup = async (req, res, next) => {
   signup(req, res, next, Organization);
 };
 
-exports.signout = (req, res, next) => {
+exports.signout = (req, res) => {
   const { id } = req.user;
   req.logout();
   req.session.destroy();

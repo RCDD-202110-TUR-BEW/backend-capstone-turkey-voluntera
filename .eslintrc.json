@@ -13,10 +13,17 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "allowModules": ["supertest"]
+      }
+    ],
     "no-unused-vars": "warn",
     "no-console": "warn",
     "func-names": "off",
     "no-process-exit": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   }
 }
