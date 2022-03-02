@@ -54,8 +54,12 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      select: false,
     },
-    googleId: String,
+    googleId: {
+      type: String,
+      select: false,
+    },
     role: {
       type: String,
       enum: ['user', 'moderator', 'admin'],

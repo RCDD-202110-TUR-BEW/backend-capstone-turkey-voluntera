@@ -7,12 +7,18 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=development nodemon src/app.js",
-    "test": "yarn validate && jest --passWithNoTests",
+    "test": "NODE_ENV=test yarn validate && jest --passWithNoTests --runInBand",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
     "validate": "yarn format && yarn lint",
     "validate-staged": "lint-staged",
-    "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
+    "postinstall": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn validate-staged",
+      "pre-push": "yarn test"
+    }
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -20,13 +26,15 @@
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
-    "mongoose": "^6.1.8",
+    "mongoose": "^6.2.2",
     "nodemailer": "^6.7.2",
     "passport": "^0.5.2",
     "passport-google-oidc": "^0.1.0",
-    "swagger-ui-express": "^4.3.0",
+    "passport-local": "^1.0.0",
     "pino": "^7.8.0",
     "pino-pretty": "^7.5.1",
+    "sinon": "^13.0.1",
+    "swagger-ui-express": "^4.3.0",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
@@ -45,6 +53,10 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.3.1",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "supertest": "^6.2.2"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
