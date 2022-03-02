@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
 const port =
   process.env.NODE_ENV === 'development'
     ? process.env.DEVELOPMENT_PORT
-    : process.env.PRODUCTION_PORT;
+    : process.env.PORT;
 const dbUrl =
   process.env.NODE_ENV === 'development'
     ? process.env.DB_DEV_URL
