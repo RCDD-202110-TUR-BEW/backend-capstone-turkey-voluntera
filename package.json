@@ -35,9 +35,10 @@
     "passport": "^0.5.2",
     "passport-google-oidc": "^0.1.0",
     "passport-local": "^1.0.0",
-    "swagger-ui-express": "^4.3.0",
     "pino": "^7.8.0",
     "pino-pretty": "^7.5.1",
+    "sinon": "^13.0.1",
+    "swagger-ui-express": "^4.3.0",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {
@@ -56,6 +57,10 @@
     "jest": "^27.4.7",
     "lint-staged": "^12.3.1",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "supertest": "^6.2.2"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
