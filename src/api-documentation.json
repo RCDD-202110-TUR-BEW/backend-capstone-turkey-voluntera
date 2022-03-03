@@ -371,7 +371,7 @@
         }
       }
     },
-    "/api/projects/:id": {
+    "/api/projects/{id}": {
       "get": {
         "tags": ["Project"],
         "summary": "get a specific project by id",
@@ -481,9 +481,9 @@
             }
           },
           {
-            "name": "location",
+            "name": "address",
             "in": "query",
-            "description": "location of the project wanted to be filtered",
+            "description": "address of the project wanted to be filtered",
             "required": false,
             "schema": {
               "type": "string"
@@ -541,7 +541,7 @@
         }
       }
     },
-    "/api/projects/:id/applications": {
+    "/api/projects/{id}/applications": {
       "post": {
         "tags": ["Project"],
         "summary": "create a new application for a project",
@@ -593,7 +593,7 @@
         }
       }
     },
-    "/api/posts/:id": {
+    "/api/posts/{id}": {
       "get": {
         "tags": ["Post"],
         "summary": "get a specific post by id",
@@ -763,7 +763,7 @@
         }
       }
     },
-    "/api/posts/:id/likes": {
+    "/api/posts/{id}/likes": {
       "post": {
         "tags": ["Post"],
         "summary": "update number of likes on a specific post",
@@ -864,7 +864,7 @@
         }
       }
     },
-    "/api/comments/:id": {
+    "/api/comments/{id}": {
       "post": {
         "tags": ["Comment"],
         "summary": "create a new comment",
@@ -895,7 +895,7 @@
         }
       }
     },
-    "/api/profiles/:id": {
+    "/api/profiles/{id}": {
       "get": {
         "tags": ["Profile"],
         "summary": "get a user profile by id",
