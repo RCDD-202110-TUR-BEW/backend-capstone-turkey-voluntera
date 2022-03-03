@@ -7,8 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=development nodemon src/app.js",
-    "start-app": "NODE_ENV=production nodemon src/app.js",
-    "build": "yarn install",
+    "start-app": "NODE_ENV=production node src/app.js",
     "test": "yarn validate && jest --passWithNoTests --runInBand",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
