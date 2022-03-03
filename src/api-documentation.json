@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000"
+      "url": "https://voluntera.herokuapp.com"
     }
   ],
   "tags": [
@@ -350,7 +350,7 @@
     }
   },
   "paths": {
-    "/api/project": {
+    "/api/projects": {
       "get": {
         "tags": ["Project"],
         "summary": "Get all projects in database",
@@ -371,7 +371,7 @@
         }
       }
     },
-    "/api/project/:id": {
+    "/api/projects/:id": {
       "get": {
         "tags": ["Project"],
         "summary": "get a specific project by id",
@@ -466,7 +466,7 @@
         }
       }
     },
-    "/api/project/filter": {
+    "/api/projects/filter": {
       "get": {
         "tags": ["Project"],
         "summary": "get projects filtered by creator and location",
@@ -510,7 +510,7 @@
         }
       }
     },
-    "/api/project/add": {
+    "/api/projects": {
       "post": {
         "tags": ["Project"],
         "summary": "create a new project",
@@ -541,7 +541,7 @@
         }
       }
     },
-    "/api/project/app/:id": {
+    "/api/projects/:id/applications": {
       "post": {
         "tags": ["Project"],
         "summary": "create a new application for a project",
@@ -572,7 +572,7 @@
         }
       }
     },
-    "/api/post": {
+    "/api/posts": {
       "get": {
         "tags": ["Post"],
         "summary": "Get all posts in database",
@@ -593,7 +593,7 @@
         }
       }
     },
-    "/api/post/:id": {
+    "/api/posts/:id": {
       "get": {
         "tags": ["Post"],
         "summary": "get a specific post by id",
@@ -688,7 +688,7 @@
         }
       }
     },
-    "/api/post/filter": {
+    "/api/posts/filter": {
       "get": {
         "tags": ["Post"],
         "summary": "get posts filtered by sender and title",
@@ -732,7 +732,7 @@
         }
       }
     },
-    "/api/post/add": {
+    "/api/posts/": {
       "post": {
         "tags": ["Post"],
         "summary": "create a new post",
@@ -763,7 +763,7 @@
         }
       }
     },
-    "/api/post/like/:id": {
+    "/api/posts/:id/likes": {
       "post": {
         "tags": ["Post"],
         "summary": "update number of likes on a specific post",
@@ -791,7 +791,7 @@
         }
       }
     },
-    "/api/comment/:postId": {
+    "/api/comments/:commentid": {
       "get": {
         "tags": ["Comment"],
         "summary": "get a specific comment by providing the id of the post and the id of the comment",
@@ -864,7 +864,7 @@
         }
       }
     },
-    "/api/comment/comment/:id": {
+    "/api/comments/:id": {
       "post": {
         "tags": ["Comment"],
         "summary": "create a new comment",
@@ -895,7 +895,7 @@
         }
       }
     },
-    "/api/profile/:id": {
+    "/api/profiles/:id": {
       "get": {
         "tags": ["Profile"],
         "summary": "get a user profile by id",
@@ -990,7 +990,7 @@
         }
       }
     },
-    "/api/profile/filter": {
+    "/api/profiles/filter": {
       "get": {
         "tags": ["Profile"],
         "summary": "get profiles filtered by username and email",
