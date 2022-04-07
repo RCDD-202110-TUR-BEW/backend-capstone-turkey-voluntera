@@ -17,9 +17,16 @@
   "servers": [
     {
       "url": "https://voluntera.herokuapp.com"
+    },
+    {
+      "url": "http://localhost:8000"
     }
   ],
   "tags": [
+    {
+      "name": "Auth",
+      "description": "Auth endpoints"
+    },
     {
       "name": "Project",
       "description": "Project endpoints"
@@ -108,6 +115,15 @@
         "description": "schema has the fields should be added to 'user' schema when the user type is 'volunteer'",
         "required": ["firstName", "lastName", "birthDate"],
         "properties": {
+          "email": {
+            "type": "string",
+            "description": "the user email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "the user password"
+          },
           "firstName": {
             "type": "string",
             "description": "volunteer first name"
@@ -133,6 +149,15 @@
         "description": "schema has the fields should be added to 'user' schema when the user type is 'organization'",
         "required": ["name", "description", "address"],
         "properties": {
+          "email": {
+            "type": "string",
+            "description": "the user email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "the user password"
+          },
           "name": {
             "type": "string",
             "description": "the name of the organization",
@@ -350,6 +375,110 @@
     }
   },
   "paths": {
+    "/auth/google": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Sign up / sign in using google",
+        "responses": {
+          "200": {
+            "description": "OK, user created"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Sign in user using email and password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "email": "example@ex.com",
+                "password": "SEcuropassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, signed in"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/auth/signup/volunteer": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Signup volunteer using local authentication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Volunteer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, return all projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Volunteer"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/auth/signup/organization": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Signup organization using local authentication",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, return all projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organization"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
     "/api/projects": {
       "get": {
         "tags": ["Project"],
