@@ -14,14 +14,15 @@ passport.use(
         });
       }
 
-      const isCorrectPw = bcrypt.compare(password, user.password);
+      const isCorrectPw = await bcrypt.compare(password, user.password);
       if (!isCorrectPw) {
         return callback(null, false, {
           message: 'Incorrect username or password',
         });
       }
 
-      return callback(null, user);
+      const cleanusr = await User.findById(user.id);
+      return callback(null, cleanusr);
     } catch (err) {
       logger.error(err);
       return callback(null, false, err);

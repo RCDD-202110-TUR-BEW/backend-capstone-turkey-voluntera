@@ -2,7 +2,20 @@ const bcrypt = require('bcrypt');
 const { Volunteer, Organization } = require('../models/user');
 
 const signup = async (req, res, next, UserModel) => {
-  const { password } = req.body;
+  const { username, password, email } = req.body;
+
+  if (username === undefined) {
+    return res.json('username can not be empty');
+  }
+
+  if (password === undefined) {
+    return res.json('password can not be empty');
+  }
+
+  if (email === undefined) {
+    return res.json('email can not be empty');
+  }
+
   try {
     req.body.password = await bcrypt.hash(password, 10);
     const user = await UserModel.create(req.body);
@@ -15,8 +28,9 @@ const signup = async (req, res, next, UserModel) => {
         .status(200)
         .json({ status: 'ok', message: 'Successfuly signed up new user' });
     });
+    return true;
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 

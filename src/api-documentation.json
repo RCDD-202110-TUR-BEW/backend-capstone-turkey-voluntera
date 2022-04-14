@@ -48,7 +48,7 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["email"],
+        "required": ["email", "username"],
         "properties": {
           "username": {
             "type": "string",
@@ -113,8 +113,12 @@
       "Volunteer": {
         "type": "object",
         "description": "schema has the fields should be added to 'user' schema when the user type is 'volunteer'",
-        "required": ["firstName", "lastName", "birthDate"],
+        "required": ["firstName", "lastName", "birthDate", "username"],
         "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username"
+          },
           "email": {
             "type": "string",
             "description": "the user email",
@@ -147,8 +151,12 @@
       "Organization": {
         "type": "object",
         "description": "schema has the fields should be added to 'user' schema when the user type is 'organization'",
-        "required": ["name", "description", "address"],
+        "required": ["username", "name", "description", "address"],
         "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username"
+          },
           "email": {
             "type": "string",
             "description": "the user email",
@@ -401,8 +409,8 @@
                 "$ref": "#/components/schemas/User"
               },
               "example": {
-                "email": "example@ex.com",
-                "password": "SEcuropassword"
+                "username": "username",
+                "password": "expassword"
               }
             }
           }
