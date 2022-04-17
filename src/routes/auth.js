@@ -24,7 +24,6 @@ router.get(
 router.post(
   '/signin',
   passportLocal.authenticate('local', {
-    failureRedirect: '/auth/signin',
     failureMessage: true,
   }),
   authControllers.callback
